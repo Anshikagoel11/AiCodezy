@@ -1,0 +1,15 @@
+react-hook-form 
+const {register,handleSubmit, formState: { errors }} = useForm({resolver:zodResolver(RegisterSchema)});
+this is what error contains
+const errors={
+    //if not error
+    username:undefined,
+    //if error 
+    userName:{
+        type:minLength,
+        message:'Username must be of minimum length 3'
+    },
+    email:{
+
+    }
+}
