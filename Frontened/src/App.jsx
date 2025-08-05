@@ -1,8 +1,7 @@
 
 import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import AuthPage from './auth/authPage'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
 import {checkAuth} from './redux/authSlicer'
 import { useEffect } from 'react'
 
@@ -14,7 +13,7 @@ function App() {
 
   useEffect(()=>{
   dispatch(checkAuth());
-  },[isAuthenticated])
+  },[])
 
   return (
     <>

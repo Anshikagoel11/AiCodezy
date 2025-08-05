@@ -1,8 +1,9 @@
 import axiosClient from "../../utils/axiosClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+// redux API handling
 const registerUser = createAsyncThunk(
-  "auth/register",
+  "auth/register", //  slicename/actiontype
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosClient.post("/user/register", userData);
@@ -50,7 +51,6 @@ const checkAuth = createAsyncThunk(
 );
 
 //creating slice
-
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -63,14 +63,14 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      //register user cases
+      //register  cases
       .addCase(registerUser.pending, (state) => {
         state.pending = true;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.pending = false;
-        state.isAuthenticated = !!action.payload;
+        state.isAuthenticated = !!action.payload;  // to handel edge cases - if somehow data is missing in response 
         state.user = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -116,7 +116,6 @@ const authSlice = createSlice({
       })
 
       //checkAuth cases
-
       .addCase(checkAuth.pending, (state) => {
         (state.loading = true), (state.error = null);
       })
