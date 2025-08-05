@@ -33,7 +33,7 @@ const submitProblems = async (req, res) => {
       source_code: code,
       language_id: languageId,
       stdin: testcase.input,
-      expected_output: testcase.output, // ✅ fixed typo here
+      expected_output: testcase.output,
     }));
 
     const getToken = await submitBatch(submissions);
@@ -74,7 +74,7 @@ const submitProblems = async (req, res) => {
 
     res.status(201).send(submittedResult);
   } catch (err) {
-  console.error("Submission Error:", err); // <-- always log
+  console.error("Submission Error:", err);
   const errorMsg =
     err?.message || JSON.stringify(err) || "Something went wrong during submission.";
   res.status(500).send({ error: errorMsg });

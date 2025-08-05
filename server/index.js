@@ -5,6 +5,7 @@ const problemRouter = require("./src/routes/problemRouter")
 const submitRouter = require("./src/routes/submitProblem")
 const redisClient = require('./src/config/redis');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 const app = express();
 require('dotenv').config();
@@ -13,6 +14,11 @@ require('dotenv').config();
 app.use(cookieParser());
 app.use(express.json());
 
+//allows cors
+app.use(cors({
+    origin:'http://localhost:5173',   // * - for all origin
+    credentials:true
+}))
 
 async function connection(){
 try{

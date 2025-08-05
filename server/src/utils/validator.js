@@ -21,11 +21,11 @@ function validate(data){
     if(!validator.isStrongPassword(password)){
         throw new Error('Weak Password')
     }
-    if(firstName.length<3 || firstName.length>20){
+    if(firstName.length<3){
         throw new Error('Invalid Name format')
     }
 
-    if(lastName && (lastName.length<3 || lastName.length >20)){
+    if(lastName && lastName != "" && lastName.length<3){
         throw new Error('Invalid LastName format')
     }
 }
