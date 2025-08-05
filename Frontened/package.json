@@ -14,12 +14,15 @@
   "dependencies": {
     "@fontsource/karla": "^5.2.6",
     "@hookform/resolvers": "^5.2.1",
+    "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.11",
     "@vitejs/plugin-react": "^4.7.0",
+    "axios": "^1.11.0",
     "framer-motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.62.0",
+    "react-redux": "^9.2.0",
     "zod": "^4.0.14"
   }
 }

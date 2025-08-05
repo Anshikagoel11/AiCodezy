@@ -13,3 +13,16 @@ const errors={
 
     }
 }
+
+
+
+
+const response = {
+    data: complete response object send by backend,
+    data : {
+        user:userDetails,
+        message:
+    },
+    status_code:,
+    ......
+}

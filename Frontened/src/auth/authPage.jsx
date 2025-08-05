@@ -21,7 +21,7 @@ export default function AuthPage() {
       </motion.div>
 
       {/* Auth container */}
-      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md bg-[#0a0a0a]/90 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 z-10 shadow-xl">
+      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md bg-[#0a0a0a]/90 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-600/60 z-10 shadow-xl">
         {/* Auth toggle */}
         <div className="flex flex-col sm:flex-row border-b border-gray-700/50">
           <button
