@@ -5,8 +5,6 @@ const {createProblem,updateProblem,deleteProblem,getProblembyId,getAllProblem,fi
 const adminmiddleware = require('../middleware/adminmiddleware')
 
 
-
-
 //these 3 need admin access
 problemRouter.post("/create", tokenVerifyMiddleware ,adminmiddleware, createProblem)
 problemRouter.put("/update/:id",tokenVerifyMiddleware,adminmiddleware,updateProblem)
@@ -14,7 +12,9 @@ problemRouter.delete("/delete/:id",tokenVerifyMiddleware,adminmiddleware,deleteP
 
 
 problemRouter.get("/problemById/:id",tokenVerifyMiddleware,getProblembyId)
-problemRouter.get("/getAllProblem",tokenVerifyMiddleware,getAllProblem)
+problemRouter.get("/getAllProblem",getAllProblem)
+
+
 // problemRouter.post("/ProblemSolvedByUser",tokenVerifyMiddleware,solvedProblemByUser)
 problemRouter.get("/filter", filterProblems);
 

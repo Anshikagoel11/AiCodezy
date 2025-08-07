@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const redisClient = require("../config/redis");
 require("dotenv").config();
+const validator  = require('validator')
 
 const register = async (req, res) => {
   try {
@@ -86,6 +87,34 @@ const login = async (req, res) => {
     res.status(400).send("Error occured: " + err);
   }
 };
+
+// const forgetPassword = async (req, res) => {
+//   try {
+//     const { emailId, newPassword } = req.body;
+
+//     if (!emailId || !password || !newPassword) {
+//       throw new Error("All fields are required");
+//     }
+
+//     const foundUser = await user.findOne({ emailId });
+//     if (!foundUser) throw new Error("Invalid email or password");
+
+//     const isMatched = await bcrypt.compare(password, foundUser.password);
+//     if (!isMatched) throw new Error("Invalid email or password");
+
+//     if (!validator.isStrongPassword(newPassword)) {
+//       throw new Error("New password is too weak");
+//     }
+
+//     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+//     foundUser.password = hashedNewPassword;
+//     await foundUser.save();
+
+//     return res.status(200).json({ message: "Password reset successfully" });
+//   } catch (err) {
+//     return res.status(400).json({ message: err.message || "Error occurred" });
+//   }
+// };
 
 const logout = async (req, res) => {
   try {
