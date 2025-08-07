@@ -21,6 +21,7 @@
     "framer-motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-feather": "^2.0.10",
     "react-hook-form": "^7.62.0",
     "react-redux": "^9.2.0",
     "zod": "^4.0.14"

@@ -1,51 +1,66 @@
-import axiosClient from "../../utils/axiosClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axiosClient from "../utils/axiosClient";
 
 // redux API handling
-const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   "auth/register", //  slicename/actiontype
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.post("/user/register", userData);
+      const response = await axiosClient.post("user/register", userData);
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error);
+      console.log(error)
+      return rejectWithValue({
+        message: error?.response?.data?.message || "Something Went Wrong",
+        code: error.code,
+        showToUser:true
+      });
     }
   }
 );
 
-const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.post("/user/login", credentials);
+      const response = await axiosClient.post("user/login", credentials);
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error);
+      // console.log(error)
+      return rejectWithValue({
+       message: error?.response?.data?.message || "Something Went Wrong",
+        code: error.code,
+      });
     }
   }
 );
 
-const logoutUser = createAsyncThunk(
+export const logoutUser = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axiosClient.post("/user/login");
+      await axiosClient.post("user/logout");
       return null;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue({
+       message: error?.response?.data?.message || "Something Went Wrong",
+        code: error.code,
+      });
     }
   }
 );
 
-const checkAuth = createAsyncThunk(
+export const checkAuth = createAsyncThunk(
   "auth/check",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.get("/user/login");
+      const response = await axiosClient.get("user/checkAuth");
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue({
+       message: error?.response?.data?.message || "Something Went Wrong",
+        code: error.code,
+      });
     }
   }
 );
@@ -59,34 +74,37 @@ const authSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearError : (state)=> {state.error =  null}
+  },
   extraReducers: (builder) => {
     builder
 
       //register  cases
       .addCase(registerUser.pending, (state) => {
-        state.pending = true;
-        state.error = null;
+        state.loading = true;
+        state.error =null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.pending = false;
-        state.isAuthenticated = !!action.payload;  // to handel edge cases - if somehow data is missing in response 
+        state.loading = false;
+        state.isAuthenticated = !!action.payload; // to handel edge cases - if somehow data is missing in response
         state.user = action.payload;
+        state.error=null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Something went wrong";
+        state.error = action.payload?.message || "Something went wrong";  //rejectWithValue se bheja hua object action.payload me aata h
         state.isAuthenticated = false;
         state.user = null;
       })
 
       //login cases
       .addCase(loginUser.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
@@ -117,7 +135,8 @@ const authSlice = createSlice({
 
       //checkAuth cases
       .addCase(checkAuth.pending, (state) => {
-        (state.loading = true), (state.error = null);
+        state.loading=true
+        state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.loading = false;
@@ -126,7 +145,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuth.rejected, (state, action) => {
-        state.error = action.payload?.message;
+        // state.error = action.payload?.message;  // user unauthentication is not need to show to user , just redirect to auth page
         state.user = null;
         state.loading = false;
         state.isAuthenticated = false;
@@ -135,3 +154,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const  {clearError} = authSlice.actions

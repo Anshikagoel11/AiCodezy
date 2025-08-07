@@ -1,14 +1,39 @@
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { loginUser , clearError} from "../redux/authSlicer";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingDots from "../Ui/loadingdots";
 import * as z from "zod";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+
 
 const SignInSchema = z.object({
-  email: z.email("Invalid email address"),
+  emailId: z.email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
+
 export default function SignIn() {
+  const dispatch = useDispatch();
+  const { isAuthenticated ,loading,error} = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
+
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
+  };
+
+  const handelError = ()=>{
+    dispatch(clearError())
+  }
+
   const {
     register,
     handleSubmit,
@@ -17,6 +42,7 @@ export default function SignIn() {
     resolver: zodResolver(SignInSchema),
   });
 
+  
   return (
     <div className="sm:p-6 md:p-8">
       <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
@@ -24,7 +50,7 @@ export default function SignIn() {
       </h2>
 
       <form
-        onSubmit={handleSubmit((data)=>console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
         className="space-y-3 sm:space-y-4"
       >
         <div>
@@ -32,12 +58,13 @@ export default function SignIn() {
             Email
           </label>
           <input
-            {...register("email")}
+            {...register("emailId")}
             type="email"
             className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-sm sm:text-base"
             placeholder="email@example.com"
+            onFocus={handelError}
           />
-          {errors.email && (
+          {errors.emailId && (
             <p className="mt-1 text-xs sm:text-sm text-red-500 flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +78,7 @@ export default function SignIn() {
                   clipRule="evenodd"
                 />
               </svg>
-              {errors.email.message?.toString()}
+              {errors.emailId.message?.toString()}
             </p>
           )}
         </div>
@@ -65,6 +92,7 @@ export default function SignIn() {
             type="password"
             className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-sm sm:text-base"
             placeholder="••••••••"
+            onFocus={handelError}
           />
           {errors.password && (
             <div className="mt-1 text-xs sm:text-sm text-red-500 space-y-1">
@@ -101,14 +129,32 @@ export default function SignIn() {
           </a>
         </div>
 
+ {error && (
+        <p className= 'mt-1 text-xs sm:text-sm text-red-500 space-y-1 text-center'>
+          Invalid Credientials
+        </p>
+      )}
         <motion.button
           type="submit"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full py-2 sm:py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium rounded-lg shadow-lg relative overflow-hidden group text-sm sm:text-base"
+          whileHover={!loading ? { scale: 1.02 } : {}}
+          whileTap={!loading ? { scale: 0.98 } : {}}
+          className={`w-full py-2 sm:py-3 px-4 ${
+            loading 
+              ? "bg-blue-700" 
+              : "bg-gradient-to-r from-blue-600 to-blue-800"
+          } text-white font-medium rounded-lg shadow-lg relative overflow-hidden group text-sm sm:text-base`}
+          disabled={loading}
         >
-          <span className="relative z-10">Sign In</span>
-          <span className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-700 to-blue-900 group-hover:opacity-100 transition-opacity duration-300"></span>
+          {loading ? (
+            <div className="flex justify-center items-center p-2">
+              <LoadingDots />
+            </div>
+          ) : (
+            <span className="relative z-10">Sign In</span>
+          )}
+          {!loading && (
+            <span className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-700 to-blue-900 group-hover:opacity-100 transition-opacity duration-300"></span>
+          )}
         </motion.button>
       </form>
     </div>
