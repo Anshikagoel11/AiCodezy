@@ -7,6 +7,7 @@ export const fetchProblem = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get(`problem/problemById/${id}`);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue({

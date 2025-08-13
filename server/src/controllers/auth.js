@@ -9,7 +9,7 @@ const validator  = require('validator')
 const register = async (req, res) => {
   try {
    
-    // validate(req.body);
+    validate(req.body);
 
     const { emailId, password } = req.body;
 

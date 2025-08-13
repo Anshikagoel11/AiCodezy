@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-[#0f0f0f] pt-3 pb-3">
+    <div className="bg-[#0f0f0f] pt-3 ">
       <nav className="bg-black/70 border backdrop-blur-sm border-b-1 border-gray-900 rounded-xl px-4 py-4 mx-4 shadow-xl m-auto ">
         <div className="flex items-center justify-between">
           {/* Logo */}

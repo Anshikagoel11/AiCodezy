@@ -245,18 +245,20 @@ const getProblembyId = async (req, res) => {
     if (!id) {
       return res.status(400).send("No id found");
     }
-
     const problem = await Problem.findById(id).select(
-      "title description difficultyLevel hint tags constraints visibleTestCases codeFunction referenceSolution "
+      "title description difficultyLevel hint tags constraints visibleTestCases codeFunction referenceSolution examples"
     );
+  
     if (!problem) {
       return res.status(500).send("No problem found");
     }
 
-    const foundProblem = await Problem.findById(id);
-    res.status(200).send(foundProblem);
+    res.status(200).send(problem);
   } catch (err) {
-    res.status(400).send("error occured: " + err);
+    res.status(400).json({
+      message:'error occured in problem from server side',
+      error:err
+    });
   }
 };
 

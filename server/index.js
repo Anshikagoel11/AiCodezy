@@ -2,11 +2,11 @@ const express = require('express')
 const main = require("./src/config/db")
 const authRouter=require("./src/routes/userAuth");
 const problemRouter = require("./src/routes/problemRouter")
+const Problem = require('./src/models/Problem')
 const submitRouter = require("./src/routes/submitProblem")
 const redisClient = require('./src/config/redis');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
-
 const app = express();
 require('dotenv').config();
 
@@ -32,7 +32,6 @@ try{
 }
 }
 connection();
-
 
 
 app.use("/user",authRouter);

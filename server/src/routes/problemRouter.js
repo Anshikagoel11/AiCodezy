@@ -11,12 +11,13 @@ problemRouter.put("/update/:id",tokenVerifyMiddleware,adminmiddleware,updateProb
 problemRouter.delete("/delete/:id",tokenVerifyMiddleware,adminmiddleware,deleteProblem)
 
 
-problemRouter.get("/problemById/:id",tokenVerifyMiddleware,getProblembyId)
+problemRouter.get("/problemById/:id",getProblembyId)
 problemRouter.get("/getAllProblem",getAllProblem)
 
 
+
 // problemRouter.post("/ProblemSolvedByUser",tokenVerifyMiddleware,solvedProblemByUser)
-problemRouter.get("/filter", filterProblems);
+// problemRouter.get("/filter", filterProblems);
 
 
 
