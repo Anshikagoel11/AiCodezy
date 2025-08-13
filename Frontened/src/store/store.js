@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from '../redux/authSlicer'
-
+import problemReducer from '../redux/problemSlicer'
 const store = configureStore({
     reducer:{
-        auth:authReducer
+        auth:authReducer,
+        problem:problemReducer
     }
 })
 

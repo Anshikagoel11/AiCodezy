@@ -49,7 +49,7 @@ export default function AuthPage() {
         <div className="flex flex-col sm:flex-row border-b border-gray-700/50 relative">
           
           <motion.div
-            className="absolute bottom-0 left-0 h-0.5 bg-blue-400"
+            className="absolute bottom-0 left-0 h-0.5 bg-ornage-400"
             initial={false}
             animate={{
               width: "50%",
@@ -62,7 +62,7 @@ export default function AuthPage() {
             onClick={() => setIsLogin(true)}
             className={`flex-1 py-3 sm:py-4 font-medium transition-colors duration-300 ${
               isLogin
-                ? 'text-blue-400 bg-[#1e1e1e]/50'
+                ? 'text-orange-400 bg-[#1e1e1e]/50'
                 : 'text-gray-400 hover:text-white bg-[#0f0f0f]/30'
             }`}
           >
@@ -72,7 +72,7 @@ export default function AuthPage() {
             onClick={() => setIsLogin(false)}
             className={`flex-1 py-3 sm:py-4 font-medium transition-colors duration-300 ${
               !isLogin
-                ? 'text-blue-400 bg-[#1e1e1e]/50'
+                ? 'text-orange-400 bg-[#1e1e1e]/50'
                 : 'text-gray-400 hover:text-white bg-[#0f0f0f]/30'
             }`}
           >
@@ -108,7 +108,7 @@ export default function AuthPage() {
                 {isLogin ? "Already have an account?" : "Don't have an account?"}{' '}
                 <motion.button 
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-blue-400 hover:text-blue-300 font-medium"
+                  className="text-orange-400 hover:text-ornage-300 font-medium"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

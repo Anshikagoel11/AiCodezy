@@ -10,9 +10,9 @@ const Logo = () => (
     animate={{ y: 0, opacity: 1 }}
     transition={{ duration: 0.5 }}
   >
-     <Code className="text-blue-400 font-bold" size={35} />
+     <Code className="text-orange-400 font-bold" size={35} />
     <motion.h1 
-      className="text-4xl font-bold bg-gradient-to-r from-green-300 via-blue-300 to-blue-900 bg-clip-text text-transparent"
+      className="text-4xl font-bold bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-900 bg-clip-text text-transparent"
       animate={{
         backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
       }}

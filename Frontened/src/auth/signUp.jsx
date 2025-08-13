@@ -64,12 +64,12 @@ export default function SignUp() {
         className="space-y-3 sm:space-y-4"
       >
         <div>
-          <label className="block text-sm font-medium text-blue-400/90 mb-1 sm:mb-2">
+          <label className="block text-sm font-medium text-orange-400/90 mb-1 sm:mb-2">
             firstName
           </label>
           <input
             {...register("firstName")}
-            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-sm sm:text-base"
+            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent text-sm sm:text-base"
             placeholder="firstName"
             onFocus={handelError}
           />
@@ -93,13 +93,13 @@ export default function SignUp() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-blue-400/90 mb-1 sm:mb-2">
+          <label className="block text-sm font-medium text-orange-400/90 mb-1 sm:mb-2">
             Email
           </label>
           <input
             {...register("emailId")}
             type="email"
-            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-sm sm:text-base"
+            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent text-sm sm:text-base"
             placeholder="email@example.com"
               onFocus={handelError}
           />
@@ -123,13 +123,13 @@ export default function SignUp() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-blue-400/90 mb-1 sm:mb-2">
+          <label className="block text-sm font-medium text-orange-400/90 mb-1 sm:mb-2">
             Password
           </label>
           <input
             {...register("password")}
             type="password"
-            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-sm sm:text-base"
+            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a]/70 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent text-sm sm:text-base"
             placeholder="••••••••"
               onFocus={handelError}
           />
@@ -171,8 +171,8 @@ export default function SignUp() {
   whileTap={!loading ? { scale: 0.98 } : {}}
   className={`w-full py-2 sm:py-3 px-4 ${
     loading 
-      ? "bg-blue-700" 
-      : "bg-gradient-to-r from-blue-600 to-blue-800"
+      ? "bg-orange-700" 
+      : "bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-900 "
   } text-white font-medium rounded-lg shadow-lg relative overflow-hidden group text-sm sm:text-base`}
   disabled={loading}
 >
@@ -181,10 +181,10 @@ export default function SignUp() {
       <LoadingDots />
     </div>
   ) : (
-    <span className="relative z-10">Sign Up</span>
+    <span className="relative z-10 text-black">Sign Up</span>
   )}
   {!loading && (
-    <span className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-700 to-blue-900 group-hover:opacity-100 transition-opacity duration-300"></span>
+    <span className="absolute inset-0 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-900  group-hover:opacity-100 transition-opacity duration-300"></span>
   )}
 </motion.button>
       </form>

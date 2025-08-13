@@ -65,7 +65,7 @@ const Cursor = () => {
               }}
             />
             <motion.div
-              className="w-8 h-8 flex items-center justify-center text-blue-400 font-mono font-bold text-xs"
+              className="w-8 h-8 flex items-center justify-center text-orange-400 font-mono font-bold text-xs"
               animate={{
                 rotate: [0, 10, -10, 0],
               }}

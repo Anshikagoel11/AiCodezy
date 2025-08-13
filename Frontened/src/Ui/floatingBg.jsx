@@ -6,9 +6,9 @@ export default function FloatingBackground(){
                 {[...Array(8)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute rounded-full bg-blue-500/5 "
+                    className="absolute rounded-full bg-purple-200/5 "
                     style={{
-                      width: Math.random() * 200 + 100,
+                      width: Math.random() * 100 + 100,
                       height: Math.random() * 100 + 100,
                     }}
                     initial={{
