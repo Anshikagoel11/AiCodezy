@@ -7,6 +7,7 @@ import Submissions from "./submissions";
 import Solutions from "./solutions";
 import LoadingDots from "../Ui/loadingdots";
 import { fetchProblem } from "../redux/problemSlicer";
+import { submitProblem as submitProblemAction } from "../redux/submitSlicer";
 import { motion, AnimatePresence } from "framer-motion";
 import CodeEditor from "../components/codeEditor";
 
@@ -26,12 +27,17 @@ export default function ProblemPage() {
   const [activeTab, setActiveTab] = useState("Description");
   const [activeTestCase, setActiveTestCase] = useState(0);
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.problem);
+  const { loading : problemLoading, problem } = useSelector((state) => state.problem);
   const editorRef = useRef();
- const [language , setLanguage] = useState('c++')
+  const [language, setLanguage] = useState("cpp");
+const {loading : submitLoading} = useSelector((state)=>state.submit)
 
-  const showValue = () => {
-    console.log(editorRef.current.getValue());
+  const handleSubmitProblem = () => {
+    const submitCode = {
+      code: editorRef.current.getValue(),
+      language: language,
+    };
+    dispatch(submitProblemAction({submitCode, id}));
   };
 
   useEffect(() => {
@@ -45,19 +51,7 @@ export default function ProblemPage() {
     { name: "Submissions", icon: ClockIcon },
   ];
 
-  // Mock test cases - replace with your actual data
-  const testCases = [
-    {
-      input: "nums = [2,7,11,15], target = 9",
-      output: "[0,1]",
-    },
-    {
-      input: "nums = [3,2,4], target = 6",
-      output: "[1,2]",
-    },
-  ];
-
-  if (loading) {
+  if (problemLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#0f0f0f]">
         <LoadingDots size="lg" />
@@ -130,34 +124,53 @@ export default function ProblemPage() {
           <h2 className="text-emerald-400 font-mono font-semibold text-lg">
             Code Editor
           </h2>
-          <select value={language}  onChange={(e)=>setLanguage(e.target.value)} className="border border-white">
-            <option value="cpp" className="text-black">C++</option>
-            <option value="c" className="text-black">C</option>
-            <option value="java" className="text-black">Java</option>
-            <option value="javascript" className="text-black">JavaScript</option>
-            <option value="rust" className="text-black">Rust</option>
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="border border-white"
+          >
+            <option value="cpp" className="text-black">
+              C++
+            </option>
+            <option value="c" className="text-black">
+              C
+            </option>
+            <option value="java" className="text-black">
+              Java
+            </option>
+            <option value="javascript" className="text-black">
+              JavaScript
+            </option>
+            <option value="rust" className="text-black">
+              Rust
+            </option>
           </select>
         </div>
 
-        {/* Editor Component - Takes 60% height */}
+        {/* Editor Component */}
         <div className="h-[40%] bg-[#0f0f0f] overflow-hidden border-b border-gray-800">
-          <CodeEditor ref={editorRef} language={language}/>
+          <CodeEditor ref={editorRef} language={language} />
         </div>
- {/* Run/Submit Buttons */}
-          <div className=" p-4 border-t border-gray-800 flex space-x-4 justify-end ">
-            <button
-              onClick={() => showValue()}
-              className="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
-            >
-              <PlayIcon className="h-4 w-4" />
-              <span>Run Code</span>
-            </button>
-            <button className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-all duration-200 shadow-lg shadow-emerald-600/20 flex items-center space-x-2">
-              <PaperAirplaneIcon className="h-4 w-4" />
-              <span>Submit</span>
-            </button>
-          </div>
-        {/* Test Cases Section - Takes 40% height */}
+
+        {/* Run/Submit Buttons */}
+        <div className="p-4 border-t border-gray-800 flex space-x-4 justify-end">
+          <button
+            onClick={() => console.log(editorRef.current.getValue())}
+            className="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+          >
+            <PlayIcon className="h-4 w-4" />
+            <span>Run Code</span>
+          </button>
+          <button
+            onClick={handleSubmitProblem}
+            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-all duration-200 shadow-lg shadow-emerald-600/20 flex items-center space-x-2"
+          >
+            <PaperAirplaneIcon className="h-4 w-4" />
+            <span>Submit</span>
+          </button>
+        </div>
+
+        {/* Test Cases */}
         <div className="flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden">
           <div className="p-4 border-b border-gray-800">
             <h3 className="text-gray-300 font-medium flex items-center">
@@ -167,7 +180,7 @@ export default function ProblemPage() {
           </div>
 
           <div className="flex border-b border-gray-800">
-            {testCases.map((_, index) => (
+            {problem?.visibleTestCases?.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveTestCase(index)}
@@ -186,19 +199,19 @@ export default function ProblemPage() {
             <div>
               <h4 className="text-gray-400 text-sm mb-1">Input</h4>
               <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-200">
-                {testCases[activeTestCase].input}
+               
+                {problem?.visibleTestCases?.[activeTestCase]?.input || ""}
               </div>
             </div>
 
             <div>
               <h4 className="text-gray-400 text-sm mb-1">Output</h4>
               <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-200">
-                {testCases[activeTestCase].output}
+                
+                {problem?.visibleTestCases?.[activeTestCase]?.output || ""}
               </div>
             </div>
           </div>
-
-         
         </div>
       </div>
     </div>
