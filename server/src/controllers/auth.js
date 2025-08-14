@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const redisClient = require("../config/redis");
 require("dotenv").config();
-const validator  = require('validator')
 
 const register = async (req, res) => {
   try {
