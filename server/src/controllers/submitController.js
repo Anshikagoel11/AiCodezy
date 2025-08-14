@@ -1,6 +1,11 @@
 const submission = require("../models/submission");
 const Problem = require("../models/Problem");
-const { getIdByLanguage, submitBatch, submitToken, statusIdValue } = require("../utils/ProblemUtlis");
+const {
+  getIdByLanguage,
+  submitBatch,
+  submitToken,
+  statusIdValue,
+} = require("../utils/ProblemUtlis");
 
 const submitProblems = async (req, res) => {
   try {
@@ -54,14 +59,19 @@ const submitProblems = async (req, res) => {
       } else {
         allPassed = false;
         const error =
-          oneResult.stderr || oneResult.compile_output || oneResult.message || "Execution Error";
+          oneResult.stderr ||
+          oneResult.compile_output ||
+          oneResult.message ||
+          "Execution Error";
         errorMessage = error;
         status = statusIdValue(oneResult.status_id);
       }
     }
 
     if (!allPassed) {
-      status = statusIdValue(getResult.find(r => r.status_id !== 3)?.status_id || 6); // fallback to Compilation Error
+      status = statusIdValue(
+        getResult.find((r) => r.status_id !== 3)?.status_id || 6
+      ); // fallback to Compilation Error
     }
 
     submittedResult.status = status;
@@ -74,14 +84,14 @@ const submitProblems = async (req, res) => {
 
     res.status(201).send(submittedResult);
   } catch (err) {
-  console.error("Submission Error:", err);
-  const errorMsg =
-    err?.message || JSON.stringify(err) || "Something went wrong during submission.";
-  res.status(500).send({ error: errorMsg });
-}
-
+    console.error("Submission Error:", err);
+    const errorMsg =
+      err?.message ||
+      JSON.stringify(err) ||
+      "Something went wrong during submission.";
+    res.status(500).send({ error: errorMsg });
+  }
 };
-
 
 const runProblems = async (req, res) => {
   try {
@@ -130,7 +140,7 @@ const runProblems = async (req, res) => {
 
     if (!allPassed) {
       status = statusIdValue(
-        getResult.find(r => r.status_id !== 3)?.status_id || 6
+        getResult.find((r) => r.status_id !== 3)?.status_id || 6
       );
     }
 
@@ -143,14 +153,37 @@ const runProblems = async (req, res) => {
       language,
       code,
     });
-
   } catch (err) {
     console.error("Run Error:", err);
     const errorMsg =
-      err?.message || JSON.stringify(err) || "Something went wrong during running.";
+      err?.message ||
+      JSON.stringify(err) ||
+      "Something went wrong during running.";
     return res.status(500).send({ error: errorMsg });
   }
 };
 
+const getProblemSubmission = async (req, res) => {
+  try {
+    const problemId = req.params.id;
+    const userId = req.user._id;
 
-module.exports = { submitProblems ,runProblems};
+    const problemSubmissions = await submission.find({ 
+      problemId, 
+      userId 
+    });
+
+    if (!problemSubmissions.length) {
+      return res.status(201).send("No submissions found for this problem");
+    }
+
+    res.status(200).send(problemSubmissions);
+
+  } catch (err) {
+    console.error("Error in getting user's Problem Submission", err);
+    res.status(500).send("Internal server occurred");
+  }
+};
+
+
+module.exports = { submitProblems, runProblems, getProblemSubmission };
