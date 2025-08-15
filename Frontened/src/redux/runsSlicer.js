@@ -2,17 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosClient from "../utils/axiosClient";
 
 // redux API handling
-export const submitProblem = createAsyncThunk(
-  "submit/submitProblem", 
-  async ({submitCode, id}, { rejectWithValue }) => {
+export const runProblem = createAsyncThunk(
+  "run/runProblem", 
+  async ({runCode, id}, { rejectWithValue }) => {
   
     try {
-      const response = await axiosClient.post(`submission/submit/${id}` , submitCode);
+      const response = await axiosClient.post(`submission/run/${id}` , runCode);
       console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue({
-        message: error.response?.data?.message || "Failed to submit problem",
+        message: error.response?.data?.message || "Failed to run problem",
         status: error.response?.status,
         showToUser: true,
       });
@@ -22,40 +22,40 @@ export const submitProblem = createAsyncThunk(
 
 // Initial state
 const initialState = {
-  submitResult: null,  
+  runResult: null,  
   loading: false,
   error: null,
   waiting:true
 };
 
 // Creating slice
-const submitSlice = createSlice({
-  name: "submit", 
+const runSlice = createSlice({
+  name: "run", 
   initialState,
   reducers: {
-    resetSubmitState: () => initialState
+    resetRunState: () => initialState
   },
   extraReducers: (builder) => {
     builder
-      .addCase(submitProblem.pending, (state) => {
+      .addCase(runProblem.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.waiting=true
       })
-      .addCase(submitProblem.fulfilled, (state, action) => {
+      .addCase(runProblem.fulfilled, (state, action) => {
         state.loading = false;
-        state.submitResult = action.payload;
+        state.runResult = action.payload;
         state.waiting=false
       })
 
-      .addCase(submitProblem.rejected, (state, action) => {
+      .addCase(runProblem.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to submit problem";
+        state.error = action.payload?.message || "Failed to run problem";
         state.waiting=false
       });
   },
 });
 
 // Export actions and reducer
-export const { resetSubmitState } = submitSlice.actions;
-export default submitSlice.reducer;
+export const { resetRunState } = runSlice.actions;
+export default runSlice.reducer;

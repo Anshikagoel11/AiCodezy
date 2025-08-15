@@ -7,13 +7,14 @@ import * as z from "zod";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import LoadingDots from "../Ui/loadingdots";
+import toast from "react-hot-toast";
 
 const SignupSchema = z.object({
   firstName: z
     .string()
     .min(3, "Username must be at least 3 characters")
     .regex(/^(?=.*[A-Za-z])[A-Za-z0-9_]+$/, "Must contain letters"),
-  emailId: z.email("Invalid email address"),
+  emailId: z.string().email("Invalid email address"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -29,13 +30,14 @@ export default function SignUp() {
   const { isAuthenticated ,error,loading} = useSelector((state) => state.auth);
 
 
-  useEffect(() => {
-    if(isAuthenticated){
-      navigate('/')
-    }
-  }, [isAuthenticated]);
+ useEffect(() => {
+  if (isAuthenticated) {
+    toast.success("Sign up successfully");
+    navigate('/');
+  }
+}, [isAuthenticated, navigate]);
 
-  
+
   const onSubmit = (data) => {
     dispatch(registerUser(data));
   };

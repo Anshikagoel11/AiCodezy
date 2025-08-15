@@ -4,7 +4,7 @@ import FloatingBackground from "../Ui/floatingBg";
 import { useState, useEffect } from "react";
 
 const rotatingWords = ["coding", "problem-solving", "development", "algorithms"];
-const rotatingColors = ["text-amber-400", "text-indigo-400", "text-purple-400", "text-emerald-400"];
+const rotatingColors = ["text-[#ff6b6b]", "text-indigo-400", "text-purple-400", "text-emerald-400"];
 
 export default function Home() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);

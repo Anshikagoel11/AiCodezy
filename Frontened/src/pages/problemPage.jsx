@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Description from "../components/description";
 import Editorial from "../components/editorial";
-import Submissions from "./submissions";
-import Solutions from "./solutions";
+import Submissions from "../components/submissions";
+import Solutions from "../components/solutions";
+import Answer from "../components/answer";
 import LoadingDots from "../Ui/loadingdots";
 import { fetchProblem } from "../redux/problemSlicer";
 import { submitProblem as submitProblemAction } from "../redux/submitSlicer";
+import { resetRunState, runProblem as runProblemAction } from "../redux/runsSlicer";
 import { motion, AnimatePresence } from "framer-motion";
 import CodeEditor from "../components/codeEditor";
-
+import { resetSubmitState } from "../redux/submitSlicer";
+import toast from "react-hot-toast";
+import TestCaseResults from "../components/testCaseResults";
+import TestCases from "../components/testCases";
 import {
   BookOpenIcon,
   PencilIcon,
@@ -19,29 +24,80 @@ import {
   CodeBracketIcon,
   PlayIcon,
   PaperAirplaneIcon,
-  ChevronDownIcon,
+  DocumentTextIcon
 } from "@heroicons/react/24/outline";
 
 export default function ProblemPage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Description");
-  const [activeTestCase, setActiveTestCase] = useState(0);
+  const [activeTestCaseTab, setActiveTestCaseTab] = useState("Test Cases");
   const dispatch = useDispatch();
-  const { loading : problemLoading, problem } = useSelector((state) => state.problem);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { loading: problemLoading } = useSelector((state) => state.problem);
+  const { loading: submitLoading, waiting: submitWaiting } = useSelector((state) => state.submit);
+  const { loading: runLoading, waiting: runWaiting } = useSelector((state) => state.run);
   const editorRef = useRef();
   const [language, setLanguage] = useState("cpp");
-const {loading : submitLoading} = useSelector((state)=>state.submit)
 
-  const handleSubmitProblem = () => {
-    const submitCode = {
-      code: editorRef.current.getValue(),
+  
+  const bgColor = "bg-[#0f0f0f]";
+  const secondaryBg = "bg-[#0f0f0f]";
+  const accentColor = "text-[#EA763F]";
+  const accentBorder = "border-amber-400";
+  const buttonGradient = "bg-gradient-to-r from-orange-400 to-orange-500";
+  const hoverGradient = "hover:from-amber-500 hover:to-orange-600";
+  const borderColor = "border-[#2d3748]";
+  const textColor = "text-gray-100";
+
+  const handleRunCode = () => {
+    const code = editorRef.current?.getValue();
+    if (!code || code.trim() === "") {
+      toast.error("Please write some code before running");
+      return;
+    }
+    const runCode = {
+      code: code,
       language: language,
     };
-    dispatch(submitProblemAction({submitCode, id}));
+    dispatch(runProblemAction({ runCode, id }));
+  };
+
+  const handleSubmitProblem = () => {
+    if (!isAuthenticated) {
+      toast.error("You need to sign in/sign up to submit your code");
+      return;
+    }
+
+    const code = editorRef.current?.getValue();
+    if (!code || code.trim() === "") {
+      toast.error("Please write some code before submitting");
+      return;
+    }
+
+    const submitCode = {
+      code: code,
+      language: language,
+    };
+    dispatch(submitProblemAction({ submitCode, id }));
   };
 
   useEffect(() => {
     dispatch(fetchProblem(id));
+    dispatch(resetSubmitState());
+    dispatch(resetRunState());
+  }, [id]);
+
+  useEffect(() => {
+    if (!submitWaiting) setActiveTab("Answer");
+  }, [submitWaiting]);
+
+  useEffect(() => {
+    if (!runWaiting) setActiveTestCaseTab("Test Results");
+  }, [runWaiting]);
+
+  useEffect(() => {
+    setActiveTab("Description");
+    setActiveTestCaseTab("Test Cases");
   }, [id]);
 
   const tabs = [
@@ -49,46 +105,47 @@ const {loading : submitLoading} = useSelector((state)=>state.submit)
     { name: "Editorial", icon: PencilIcon },
     { name: "Solutions", icon: LightBulbIcon },
     { name: "Submissions", icon: ClockIcon },
+    { name: "Answer", icon: DocumentTextIcon },
   ];
 
   if (problemLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#0f0f0f]">
+      <div className={`flex items-center justify-center h-screen ${bgColor}`}>
         <LoadingDots size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-[#0f0f0f] text-gray-100 overflow-hidden">
-      {/* Problem Details Section */}
-      <div className="w-1/2 flex flex-col border-r border-gray-800 overflow-hidden">
+    <div className={`flex flex-col lg:flex-row h-screen ${bgColor} ${textColor} overflow-hidden`}>
+      {/* Left Panel - Problem Content */}
+      <div className={`w-full lg:w-1/2 flex flex-col border-r ${borderColor} overflow-hidden ${secondaryBg}`}>
         {/* Tab Navigation */}
-        <div className="flex bg-gray-900 border-b border-gray-800 px-2">
+        <div className={`flex ${secondaryBg} px-2 border-b ${borderColor}`}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.name}
                 onClick={() => setActiveTab(tab.name)}
-                className={`px-5 py-3 text-base font-medium relative flex items-center space-x-2
+                className={`px-4 py-3 lg:px-5 lg:py-3 text-base lg:text-lg font-medium relative flex items-center space-x-2
                   ${
                     activeTab === tab.name
-                      ? "text-emerald-400"
-                      : "text-gray-400 hover:text-gray-200"
+                      ? `${accentColor}`
+                      : `text-gray-400 hover:text-gray-200`
                   }`}
               >
                 <Icon
                   className={`h-5 w-5 ${
                     activeTab === tab.name
-                      ? "text-emerald-400"
-                      : "text-gray-400"
+                      ? `${accentColor}`
+                      : `text-gray-400`
                   }`}
                 />
                 <span>{tab.name}</span>
                 {activeTab === tab.name && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500"
+                    className={`absolute bottom-0 left-0 right-0 h-1 ${buttonGradient}`}
                     layoutId="underline"
                   />
                 )}
@@ -97,8 +154,8 @@ const {loading : submitLoading} = useSelector((state)=>state.submit)
           })}
         </div>
 
-        {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-900 p-6 bg-[#0f0f0f]">
+        {/* Content Area */}
+        <div className={`flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2d3748] scrollbar-track-[#1a1a1a] p-6 ${secondaryBg}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -112,106 +169,94 @@ const {loading : submitLoading} = useSelector((state)=>state.submit)
               {activeTab === "Editorial" && <Editorial />}
               {activeTab === "Solutions" && <Solutions />}
               {activeTab === "Submissions" && <Submissions />}
+              {activeTab === "Answer" && <Answer />}
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Editor Section */}
-      <div className="w-1/2 flex flex-col bg-gray-900 border-l border-gray-800">
-        <div className="bg-[#0f0f0f] p-4 border-b border-gray-800 flex items-center space-x-3">
-          <CodeBracketIcon className="h-6 w-6 text-emerald-400" />
-          <h2 className="text-emerald-400 font-mono font-semibold text-lg">
+      {/* Right Panel - Code Editor */}
+      <div className={`w-full lg:w-1/2 flex flex-col ${secondaryBg} border-t lg:border-t-0 ${borderColor}`}>
+        {/* Editor Header */}
+        <div className={`p-4 border-b ${borderColor} flex items-center space-x-3 bg-[#1a1a1a]`}>
+          <CodeBracketIcon className={`h-6 w-6 ${accentColor}`} />
+          <h2 className={`font-mono font-semibold text-lg lg:text-xl`}>
             Code Editor
           </h2>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="border border-white"
+            className={`ml-3 bg-[#1e293b] border ${borderColor} text-gray-200 rounded px-3 py-1 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
           >
-            <option value="cpp" className="text-black">
-              C++
-            </option>
-            <option value="c" className="text-black">
-              C
-            </option>
-            <option value="java" className="text-black">
-              Java
-            </option>
-            <option value="javascript" className="text-black">
-              JavaScript
-            </option>
-            <option value="rust" className="text-black">
-              Rust
-            </option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="java">Java</option>
+            <option value="javascript">JavaScript</option>
+            <option value="rust">Rust</option>
           </select>
         </div>
 
-        {/* Editor Component */}
-        <div className="h-[40%] bg-[#0f0f0f] overflow-hidden border-b border-gray-800">
+        {/* Code Editor Area */}
+        <div className={`h-[40vh] lg:h-[40%] bg-[#1a1a1a] overflow-hidden border-b ${borderColor}`}>
           <CodeEditor ref={editorRef} language={language} />
         </div>
 
-        {/* Run/Submit Buttons */}
-        <div className="p-4 border-t border-gray-800 flex space-x-4 justify-end">
-          <button
-            onClick={() => console.log(editorRef.current.getValue())}
-            className="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+        {/* Action Buttons */}
+        <div className={`p-4 flex flex-col sm:flex-row gap-3 justify-end bg-[#1a1a1a] border-t ${borderColor}`}>
+          <motion.button
+            onClick={handleRunCode}
+            disabled={runLoading}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className={`px-5 py-2.5 bg-[#1e293b] hover:bg-[#2d3748] text-gray-200 rounded-lg text-sm lg:text-base font-medium transition-all flex items-center space-x-2 disabled:opacity-70 border border-[#4a5568] hover:border-amber-400 shadow`}
           >
-            <PlayIcon className="h-4 w-4" />
-            <span>Run Code</span>
-          </button>
-          <button
+            <PlayIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+            <span>{runLoading ? 'Running...' : 'Run Code'}</span>
+          </motion.button>
+          <motion.button
             onClick={handleSubmitProblem}
-            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-all duration-200 shadow-lg shadow-emerald-600/20 flex items-center space-x-2"
+            disabled={submitLoading}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className={`px-5 py-2.5 ${buttonGradient} ${hoverGradient} text-white rounded-lg text-sm lg:text-base font-bold transition-all shadow-lg flex items-center space-x-2 disabled:opacity-70`}
           >
-            <PaperAirplaneIcon className="h-4 w-4" />
-            <span>Submit</span>
-          </button>
+            <PaperAirplaneIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+            <span>{submitLoading ? 'Submitting...' : 'Submit'}</span>
+          </motion.button>
         </div>
 
-        {/* Test Cases */}
-        <div className="flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden">
-          <div className="p-4 border-b border-gray-800">
-            <h3 className="text-gray-300 font-medium flex items-center">
-              <ChevronDownIcon className="h-5 w-5 mr-2 text-emerald-400" />
+        {/* Test Cases Section */}
+        <div className={`flex-1 flex flex-col bg-[#0f0f0f] overflow-hidden`}>
+          {/* Test Case Tabs */}
+          <div className={`flex border-b ${borderColor} bg-[#1a1a1a]`}>
+            <button
+              onClick={() => setActiveTestCaseTab("Test Cases")}
+              className={`px-4 py-3 lg:px-6 lg:py-3 text-sm lg:text-base font-medium ${
+                activeTestCaseTab === "Test Cases"
+                  ? `${accentColor} border-b-2 ${accentBorder}`
+                  : `text-gray-400 hover:text-gray-200`
+              }`}
+            >
               Test Cases
-            </h3>
+            </button>
+            <button
+              onClick={() => setActiveTestCaseTab("Test Results")}
+              className={`px-4 py-3 lg:px-6 lg:py-3 text-sm lg:text-base font-medium ${
+                activeTestCaseTab === "Test Results"
+                  ? `${accentColor} border-b-2 ${accentBorder}`
+                  : `text-gray-400 hover:text-gray-200`
+              }`}
+            >
+              Test Results
+            </button>
           </div>
 
-          <div className="flex border-b border-gray-800">
-            {problem?.visibleTestCases?.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveTestCase(index)}
-                className={`px-4 py-2 text-sm font-medium ${
-                  activeTestCase === index
-                    ? "text-emerald-400 border-b-2 border-emerald-400"
-                    : "text-gray-400 hover:text-gray-200"
-                }`}
-              >
-                Case {index + 1}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            <div>
-              <h4 className="text-gray-400 text-sm mb-1">Input</h4>
-              <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-200">
-               
-                {problem?.visibleTestCases?.[activeTestCase]?.input || ""}
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-gray-400 text-sm mb-1">Output</h4>
-              <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-200">
-                
-                {problem?.visibleTestCases?.[activeTestCase]?.output || ""}
-              </div>
-            </div>
-          </div>
+          {/* Test Case Content */}
+          {activeTestCaseTab === "Test Cases" ? (
+            <TestCases />
+          ) : (
+            <TestCaseResults />
+          )}
         </div>
       </div>
     </div>

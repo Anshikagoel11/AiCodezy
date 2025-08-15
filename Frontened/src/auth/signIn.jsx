@@ -7,7 +7,7 @@ import LoadingDots from "../Ui/loadingdots";
 import * as z from "zod";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-
+import toast from "react-hot-toast";
 
 const SignInSchema = z.object({
   emailId: z.email("Invalid email address"),
@@ -22,9 +22,10 @@ export default function SignIn() {
 
   useEffect(() => {
     if (isAuthenticated) {
+      toast.success("Login successfully")
       navigate("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated,navigate]);
 
   const onSubmit = (data) => {
     dispatch(loginUser(data));

@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@emotion/styled": "^11.14.1",
     "@fontsource/karla": "^5.2.6",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.1",
@@ -26,6 +27,7 @@
     "react-dom": "^19.1.0",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.62.0",
+    "react-hot-toast": "^2.5.2",
     "react-redux": "^9.2.0",
     "zod": "^4.0.14"
   }
