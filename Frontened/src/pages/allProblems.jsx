@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../utils/axiosClient";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import ProblemsShimmer from "../shimmers/problemsshimmer";
+import { fetchSolvedProblems } from "../redux/problemSolvedslicer";
+import {CheckSquare } from 'lucide-react';
 import {
   ChevronRight,
   Filter,
@@ -13,13 +15,17 @@ import {
 } from "react-feather";
 import { Link } from "react-router-dom";
 
+
+
 export default function AllProblems() {
-  const { user } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [problems, setProblems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const dispatch = useDispatch();
+  const { solvedproblems } = useSelector((state) => state.solvedProblems);
 
   const algorithmCategories = [
     { name: "All", value: "all" },
@@ -47,6 +53,9 @@ export default function AllProblems() {
 
   useEffect(() => {
     fetchAllProblems();
+    if (isAuthenticated) {
+      dispatch(fetchSolvedProblems());
+    }
   }, []);
 
   const filteredProblems = problems.filter((problem) => {
@@ -73,13 +82,16 @@ export default function AllProblems() {
     hard: "bg-rose-500/10 text-rose-400 border-rose-400/20",
   };
 
+  const isSolved = (problemId) => {
+    return solvedproblems?.includes(problemId);
+  };
 
-  if(loading){
-    return(  
-          <div className="flex items-center justify-center bg-[#0f0f0f]">
-            <ProblemsShimmer />
-          </div>
-    )
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center bg-[#0f0f0f]">
+        <ProblemsShimmer />
+      </div>
+    );
   }
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-6 relative overflow-hidden">
@@ -193,78 +205,80 @@ export default function AllProblems() {
           </div>
         </motion.div>
 
-        
-        
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="space-y-3"
-          >
-            {filteredProblems.length > 0 ? (
-              filteredProblems.map((problem, index) => (
-                <Link to={`/problem/${problem._id}`} key={index}>
-                  <motion.div
-                    whileHover={{ scale: 1.005 }}
-                    whileTap={{ scale: 0.995 }}
-                    className="bg-gray-700/20 backdrop-blur-sm border border-gray-700 rounded-xl px-5 py-4 shadow-lg transition-all cursor-pointer hover:border-amber-400/30 m-5"
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-white mb-1">
-                          {problem.title}
-                        </h3>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {problem.tags.map((tag, tagIndex) => (
-                            <span
-                              key={tagIndex}
-                              className="inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-gray-800/50 text-gray-300 border border-gray-700"
-                            >
-                              <Tag className="mr-1 text-purple-400" size={12} />{" "}
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-4 mt-3 md:mt-0">
-                        <div
-                          className={`text-xs font-mono px-3 py-1.5 rounded border ${
-                            difficultyColors[
-                              problem.difficultyLevel?.toLowerCase()
-                            ]
-                          }`}
-                        >
-                          {problem.difficultyLevel
-                            ? problem.difficultyLevel.charAt(0).toUpperCase() +
-                              problem.difficultyLevel.slice(1)
-                            : "Unknown"}
-                        </div>
-                        <div className="p-1 hover:bg-gray-700/30  transition-all">
-                          <ChevronRight className="text-amber-400" />
-                        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="space-y-3"
+        >
+          {filteredProblems.length > 0 ? (
+            filteredProblems.map((problem, index) => (
+              <Link to={`/problem/${problem._id}`} key={index}>
+                <motion.div
+                  whileHover={{ scale: 1.005 }}
+                  whileTap={{ scale: 0.995 }}
+                  className="bg-gray-700/20 backdrop-blur-sm border border-gray-700 rounded-xl px-5 py-4 shadow-lg transition-all cursor-pointer hover:border-amber-400/30 m-5"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between">
+                    <div className="flex-1">
+                     <div className="flex items-center gap-5">
+                       <h3 className="text-lg font-bold text-white mb-1">
+                        {problem.title}
+                      </h3>
+                      {isAuthenticated && isSolved(problem._id) && (
+                        <CheckSquare className="h-7 w-7 text-green-500" />
+                      )}
+                     </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {problem.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-gray-800/50 text-gray-300 border border-gray-700"
+                          >
+                            <Tag className="mr-1 text-purple-400" size={12} />{" "}
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  </motion.div>
-                </Link>
-              ))
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl p-8 text-center"
-              >
-                <AlertCircle className="mx-auto text-amber-400" size={48} />
-                <h3 className="text-xl font-bold text-white mt-4">
-                  No problems found
-                </h3>
-                <p className="text-gray-400 mt-2">
-                  Try adjusting your search or filter criteria
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-        
+
+                    <div className="flex items-center space-x-4 mt-3 md:mt-0">
+                      <div
+                        className={`text-xs font-mono px-3 py-1.5 rounded border ${
+                          difficultyColors[
+                            problem.difficultyLevel?.toLowerCase()
+                          ]
+                        }`}
+                      >
+                        {problem.difficultyLevel
+                          ? problem.difficultyLevel.charAt(0).toUpperCase() +
+                            problem.difficultyLevel.slice(1)
+                          : "Unknown"}
+                      </div>
+                      <div className="p-1 hover:bg-gray-700/30  transition-all">
+                        <ChevronRight className="text-amber-400" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl p-8 text-center"
+            >
+              <AlertCircle className="mx-auto text-amber-400" size={48} />
+              <h3 className="text-xl font-bold text-white mt-4">
+                No problems found
+              </h3>
+              <p className="text-gray-400 mt-2">
+                Try adjusting your search or filter criteria
+              </p>
+            </motion.div>
+          )}
+        </motion.div>
 
         {/* Stats Panel - Updated Colors */}
         <motion.div

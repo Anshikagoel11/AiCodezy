@@ -45,7 +45,7 @@ const CodeEditor = React.forwardRef(({ language }, ref) => {
         onChange={(value) => {
           if (value !== code) setCode(value);
         }}
-        theme="ultra-dark-pro"
+        theme="vs-dark"
         onMount={handleEditorDidMount}
         options={{
           automaticLayout: true,

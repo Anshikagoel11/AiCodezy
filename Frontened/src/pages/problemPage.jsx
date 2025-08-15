@@ -176,17 +176,17 @@ export default function ProblemPage() {
       </div>
 
       {/* Right Panel - Code Editor */}
-      <div className={`w-full lg:w-1/2 flex flex-col ${secondaryBg} border-t lg:border-t-0 ${borderColor}`}>
+      <div className={`w-full lg:w-1/2 flex flex-col ${secondaryBg} border-t lg:border-t-0 `}>
         {/* Editor Header */}
-        <div className={`p-4 border-b ${borderColor} flex items-center space-x-3 bg-[#1a1a1a]`}>
+        <div className={`p-4 border-b ${borderColor} flex items-center space-x-3 ${bgColor}`}>
           <CodeBracketIcon className={`h-6 w-6 ${accentColor}`} />
-          <h2 className={`font-mono font-semibold text-lg lg:text-xl`}>
+          <h2 className={`font-mono font-semibold text-lg lg:text-xl `}>
             Code Editor
           </h2>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className={`ml-3 bg-[#1e293b] border ${borderColor} text-gray-200 rounded px-3 py-1 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
+            className={`ml-3 bg-[#1a1a1a] border ${borderColor} text-gray-200 rounded px-3 py-1 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
           >
             <option value="cpp">C++</option>
             <option value="c">C</option>
@@ -197,12 +197,12 @@ export default function ProblemPage() {
         </div>
 
         {/* Code Editor Area */}
-        <div className={`h-[40vh] lg:h-[40%] bg-[#1a1a1a] overflow-hidden border-b ${borderColor}`}>
+        <div className={`h-[40vh] lg:h-[40%]  overflow-hidden border-2 border-gray-700 m-1`}>
           <CodeEditor ref={editorRef} language={language} />
         </div>
 
         {/* Action Buttons */}
-        <div className={`p-4 flex flex-col sm:flex-row gap-3 justify-end bg-[#1a1a1a] border-t ${borderColor}`}>
+        <div className={`p-4 flex flex-col sm:flex-row gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
           <motion.button
             onClick={handleRunCode}
             disabled={runLoading}
