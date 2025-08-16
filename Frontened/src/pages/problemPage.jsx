@@ -16,6 +16,7 @@ import { resetSubmitState } from "../redux/submitSlicer";
 import toast from "react-hot-toast";
 import TestCaseResults from "../components/testCaseResults";
 import TestCases from "../components/testCases";
+import { ProblemPageShimmer } from "../shimmers/ProblemPageShimmer";
 import {
   BookOpenIcon,
   PencilIcon,
@@ -110,8 +111,8 @@ export default function ProblemPage() {
 
   if (problemLoading) {
     return (
-      <div className={`flex items-center justify-center h-screen ${bgColor}`}>
-        <LoadingDots size="lg" />
+      <div className={`${bgColor}`}>
+       <ProblemPageShimmer/>
       </div>
     );
   }

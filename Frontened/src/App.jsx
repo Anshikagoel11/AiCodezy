@@ -17,9 +17,9 @@ function App() {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // useEffect(() => {
-  //   dispatch(checkAuth());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   if (loading) {
     return (
