@@ -174,7 +174,7 @@ const getProblemSubmission = async (req, res) => {
     });
 
     if (!problemSubmissions.length) {
-      return res.status(201).send("No submissions found for this problem");
+      return res.status(200).send("No submissions found for this problem");
     }
 
     res.status(200).send(problemSubmissions);
@@ -185,5 +185,28 @@ const getProblemSubmission = async (req, res) => {
   }
 };
 
+const getSolvedProblems = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(401).send("Unauthenticated user");
+    }
 
-module.exports = { submitProblems, runProblems, getProblemSubmission };
+    // Sirf accepted submissions ke unique problemId
+    const solvedProblemIds = await submission.distinct("problemId", {
+      userId,
+      status: "accepted",
+    });
+
+    if (!solvedProblemIds || solvedProblemIds.length === 0) {
+      return res.status(200).send("No problem solved by user");
+    }
+
+    res.status(200).json(solvedProblemIds);
+  } catch (err) {
+    console.error("Error in problem solved by user:", err);
+    res.status(500).send("Internal server error");
+  }
+};
+
+module.exports = { submitProblems, runProblems, getProblemSubmission ,getSolvedProblems};

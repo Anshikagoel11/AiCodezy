@@ -1,5 +1,6 @@
 const user = require("../models/user");
 const Problem = require("../models/Problem");
+const redisClient = require("../config/redis");
 const { checkMandatory } = require("../utils/validator");
 const {
   getIdByLanguage,
@@ -272,6 +273,7 @@ const getAllProblem = async (req, res) => {
     }
     res.status(200).send(allProblem);
   } catch (err) {
+    console.error(err)
     res.status(400).send("Error occured: " + err);
   }
 };
@@ -308,6 +310,37 @@ const filterProblems = async (req, res) => {
   }
 };
 
+const getDailyProblem = async (req, res) => {
+  try {
+    // 1. today's date
+    const today = new Date().toISOString().split("T")[0]; // "2025-08-16"
+    const redisKey = `problem_${today}`;
+
+    // 2. first check in redis for fast access
+    const dailyProblem = await redisClient.get(redisKey);
+    if (dailyProblem) {
+      return res.json(JSON.parse(dailyProblem));
+    }
+
+    // 3. if not in redis then select one from db
+    const problems = await Problem.find().select("title difficultyLevel tags _id");
+    if (problems.length === 0) {
+      return res.status(404).json({ message: "No problems found" });
+    }
+    // 4. Random problem pick
+    const randomProblem = problems[Math.floor(Math.random() * problems.length)];
+
+    // 5. store in redis for 24 hours 
+   await redisClient.setEx(redisKey, 60 * 60 * 24, JSON.stringify(randomProblem));  // storeing by converting in string since redis store data in key-value pair in string fromat
+
+    return res.json(randomProblem);
+  } catch (err) {
+    console.error("Error fetching problem:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
 module.exports = {
   createProblem,
   updateProblem,
@@ -315,4 +348,5 @@ module.exports = {
   getProblembyId,
   getAllProblem,
   filterProblems,
+  getDailyProblem
 };

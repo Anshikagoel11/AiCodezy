@@ -1,7 +1,7 @@
 const express = require('express')
 const problemRouter = express.Router();
 const tokenVerifyMiddleware = require("../middleware/tokenverify")
-const {createProblem,updateProblem,deleteProblem,getProblembyId,getAllProblem,filterProblems} = require("../controllers/problemController")
+const {createProblem,updateProblem,deleteProblem,getProblembyId,getAllProblem,getDailyProblem} = require("../controllers/problemController")
 const adminmiddleware = require('../middleware/adminmiddleware')
 
 
@@ -13,7 +13,7 @@ problemRouter.delete("/delete/:id",tokenVerifyMiddleware,adminmiddleware,deleteP
 
 problemRouter.get("/problemById/:id",getProblembyId)
 problemRouter.get("/getAllProblem",getAllProblem)
-
+problemRouter.get("/dailyProblem" , getDailyProblem)
 
 
 // problemRouter.post("/ProblemSolvedByUser",tokenVerifyMiddleware,solvedProblemByUser)
