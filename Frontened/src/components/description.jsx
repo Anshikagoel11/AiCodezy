@@ -9,10 +9,8 @@ export default function Description() {
 
   // Color scheme matching the ProblemPage
   const bgColor = "bg-[#1a1a1a]";
-  const accentColor = "text-amber-400";
   const borderColor = "border-[#2d3748]";
   const textColor = "text-gray-200";
-  const highlightColor = "bg-gradient-to-r from-amber-400 to-orange-500";
 
   const difficultyLevelColor = (level) => {
     if (level === 'easy') return 'bg-emerald-500/20 text-emerald-400 border-emerald-400/50';

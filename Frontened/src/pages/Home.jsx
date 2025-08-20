@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
-import { Code, Terminal, CheckCircle, Zap, BarChart2, Cpu, Star } from 'react-feather';
 import FloatingBackground from "../Ui/floatingBg";
 import { useState, useEffect } from "react";
+import DailyProblem from "../components/dailyProblem";
+import { useSelector } from "react-redux";
+import DailyProblemShimmer from "../shimmers/dailyProblemShimmer";
 
 const rotatingWords = ["coding", "problem-solving", "development", "algorithms"];
 const rotatingColors = ["text-[#ff6b6b]", "text-indigo-400", "text-purple-400", "text-emerald-400"];
 
 export default function Home() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+const {loading} = useSelector((state)=>state.dailyProblem)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,9 +22,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-3 relative overflow-hidden">
       <FloatingBackground/>
-      
+      {loading ? <DailyProblemShimmer/> :<DailyProblem/>}
       {/* Floating animated elements */}
       <motion.div 
         initial={{ x: -100, y: -50, opacity: 0 }}
@@ -37,7 +40,7 @@ export default function Home() {
         className="absolute bottom-20 right-20 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-600/10 to-transparent blur-xl"
       />
 
-      <div className="max-w-4xl w-full flex flex-col items-center justify-center text-center z-10 px-4">
+      <div className="max-w-4xl w-full flex flex-col items-center justify-center text-center z-10 px-4 mt-10">
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}

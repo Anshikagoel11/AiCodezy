@@ -10,6 +10,7 @@ import AllProblems from "./pages/allProblems";
 import ProblemPage from "./pages/problemPage";
 import { Toaster } from "react-hot-toast";
 import LoadingDots from "./Ui/loadingdots";
+import {fetchDailyProblem} from './redux/dailyproblemSlicer'
 
 function App() {
   const { isAuthenticated, loading } = useSelector((state) => state.auth);
@@ -19,7 +20,9 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
+    dispatch(fetchDailyProblem())
   }, [dispatch]);
+
 
   if (loading) {
     return (

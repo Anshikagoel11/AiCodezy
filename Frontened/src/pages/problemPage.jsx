@@ -6,12 +6,12 @@ import Editorial from "../components/editorial";
 import Submissions from "../components/submissions";
 import Solutions from "../components/solutions";
 import Answer from "../components/answer";
-import LoadingDots from "../Ui/loadingdots";
 import { fetchProblem } from "../redux/problemSlicer";
 import { submitProblem as submitProblemAction } from "../redux/submitSlicer";
 import { resetRunState, runProblem as runProblemAction } from "../redux/runsSlicer";
 import { motion, AnimatePresence } from "framer-motion";
 import CodeEditor from "../components/codeEditor";
+import AskAi from "../components/askAI";
 import { resetSubmitState } from "../redux/submitSlicer";
 import toast from "react-hot-toast";
 import TestCaseResults from "../components/testCaseResults";
@@ -27,6 +27,8 @@ import {
   PaperAirplaneIcon,
   DocumentTextIcon
 } from "@heroicons/react/24/outline";
+import { Bot } from "lucide-react";
+
 
 export default function ProblemPage() {
   const { id } = useParams();
@@ -107,6 +109,8 @@ export default function ProblemPage() {
     { name: "Solutions", icon: LightBulbIcon },
     { name: "Submissions", icon: ClockIcon },
     { name: "Answer", icon: DocumentTextIcon },
+    { name: "AskAi", icon: Bot }
+
   ];
 
   if (problemLoading) {
@@ -129,7 +133,7 @@ export default function ProblemPage() {
               <button
                 key={tab.name}
                 onClick={() => setActiveTab(tab.name)}
-                className={`px-4 py-3 lg:px-5 lg:py-3 text-base lg:text-lg font-medium relative flex items-center space-x-2
+                className={`px-2 py-3 lg:px-3 lg:py-3 text-xs  relative flex items-center
                   ${
                     activeTab === tab.name
                       ? `${accentColor}`
@@ -171,6 +175,7 @@ export default function ProblemPage() {
               {activeTab === "Solutions" && <Solutions />}
               {activeTab === "Submissions" && <Submissions />}
               {activeTab === "Answer" && <Answer />}
+              {activeTab === "AskAi" && <AskAi />}
             </motion.div>
           </AnimatePresence>
         </div>
