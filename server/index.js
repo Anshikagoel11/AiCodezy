@@ -4,6 +4,7 @@ const authRouter=require("./src/routes/userAuth");
 const problemRouter = require("./src/routes/problemRouter")
 const Problem = require('./src/models/Problem')
 const submitRouter = require("./src/routes/submitProblem")
+const aiChatRouter = require('./src/routes/aiChatRouter')
 const redisClient = require('./src/config/redis');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
@@ -37,3 +38,4 @@ connection();
 app.use("/user",authRouter);
 app.use("/problem",problemRouter);
 app.use("/submission",submitRouter);
+app.use('/ai',aiChatRouter)
