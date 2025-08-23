@@ -204,13 +204,13 @@ export default function ProblemPage() {
 
         {/* Code Editor Area */}
         <div className={`h-[40vh] lg:h-[40%]  overflow-hidden border-2 border-gray-700 m-1`}>
-          <CodeEditor ref={editorRef} language={language} />
+          {/* <CodeEditor ref={editorRef} language={language} /> */}
         </div>
 
         {/* Action Buttons */}
         <div className={`p-4 flex flex-col sm:flex-row gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
           <motion.button
-            onClick={handleRunCode}
+            // onClick={handleRunCode}
             disabled={runLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
@@ -220,7 +220,7 @@ export default function ProblemPage() {
             <span>{runLoading ? 'Running...' : 'Run Code'}</span>
           </motion.button>
           <motion.button
-            onClick={handleSubmitProblem}
+            // onClick={handleSubmitProblem}
             disabled={submitLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}

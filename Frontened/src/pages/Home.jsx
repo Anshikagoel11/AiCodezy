@@ -24,7 +24,7 @@ const {loading} = useSelector((state)=>state.dailyProblem)
   return (
     <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-3 relative overflow-hidden">
       <FloatingBackground/>
-      {loading ? <DailyProblemShimmer/> :<DailyProblem/>}
+      {/* {loading ? <DailyProblemShimmer/> :<DailyProblem/>} */}
       {/* Floating animated elements */}
       <motion.div 
         initial={{ x: -100, y: -50, opacity: 0 }}
