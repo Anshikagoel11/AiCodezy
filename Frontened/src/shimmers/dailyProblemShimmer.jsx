@@ -6,12 +6,12 @@ export default function DailyProblemShimmer() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="absolute top-6 right-6 z-20 w-80"
+            className="w-full"
         >
-            <div className="relative bg-gray-700/20 mb-10 backdrop-blur-lg border border-gray-700 rounded-xl p-4 shadow-2xl overflow-hidden">
+            <div className="relative bg-gray-700/20 backdrop-blur-lg border border-gray-700 rounded-xl p-4 shadow-2xl overflow-hidden">
                 {/* Animated shimmer background */}
                 <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-600/20 to-transparent animate-[shimmer_1.5s_infinite]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-600/20 to-transparent animate-shimmer"></div>
                 </div>
                 
                 {/* Decorative elements (shimmer version) */}
@@ -44,14 +44,6 @@ export default function DailyProblemShimmer() {
                     </div>
                 </div>
             </div>
-            
-            {/* Add this to your globals.css */}
-            <style jsx global>{`
-                @keyframes shimmer {
-                    0% { transform: translateX(-100%); }
-                    100% { transform: translateX(100%); }
-                }
-            `}</style>
         </motion.div>
     );
 }

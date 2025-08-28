@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import DailyProblem from "../components/dailyProblem";
 import { useSelector } from "react-redux";
 import DailyProblemShimmer from "../shimmers/dailyProblemShimmer";
+import { Link } from "react-router";
 
 const rotatingWords = ["coding", "problem-solving", "development", "algorithms"];
 const rotatingColors = ["text-[#ff6b6b]", "text-indigo-400", "text-purple-400", "text-emerald-400"];
 
 export default function Hero() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-const {loading} = useSelector((state)=>state.dailyProblem)
+  const {loading} = useSelector((state)=>state.dailyProblem);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,13 +20,23 @@ const {loading} = useSelector((state)=>state.dailyProblem)
         prevIndex === rotatingWords.length - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
-    return () => clearInterval(interval);
+    
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-3 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0f0f0f] flex flex-col items-center justify-center p-3 relative overflow-hidden">
       <FloatingBackground/>
-      {loading ? <DailyProblemShimmer/> :<DailyProblem/>}
+      
       {/* Floating animated elements */}
       <motion.div 
         initial={{ x: -100, y: -50, opacity: 0 }}
@@ -40,7 +52,12 @@ const {loading} = useSelector((state)=>state.dailyProblem)
         className="absolute bottom-20 right-20 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-600/10 to-transparent blur-xl"
       />
 
-      <div className="max-w-4xl w-full flex flex-col items-center justify-center text-center z-10 px-4 mt-10">
+      {/* Daily Problem - Positioned first on mobile, absolute on desktop */}
+      <div className={`${isMobile ? 'order-first mb-8 w-full max-w-md px-4' : 'absolute top-6 right-6 z-20 w-80'}`}>
+        {loading ? <DailyProblemShimmer /> : <DailyProblem />}
+      </div>
+
+      <div className="max-w-4xl w-full flex flex-col items-center justify-center text-center z-10 px-4">
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,6 +90,7 @@ const {loading} = useSelector((state)=>state.dailyProblem)
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
+            <Link to={'/problems'}>
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
@@ -80,7 +98,7 @@ const {loading} = useSelector((state)=>state.dailyProblem)
             >
               Start Solving Now
             </motion.button>
-            
+            </Link>
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}

@@ -91,11 +91,11 @@ const createProblem = async (req, res) => {
 
       
       const getResult = await submitToken(getToken);
-      // console.log('result : ',getResult)
-      // for(const i of getResult){
-      //  console.log('id : ',i?.status?.id)
-      // console.log('status : ',i?.status?.description)
-      // }
+      console.log('result : ',getResult)
+      for(const i of getResult){
+       console.log('id : ',i?.status?.id)
+      console.log('status : ',i?.status?.description)
+      }
      
 
       //now getResult have this array
@@ -128,6 +128,9 @@ const createProblem = async (req, res) => {
 
     //now we can store in it our db
     req.body.problemCreater = req.user._id;
+
+ 
+
     await Problem.create(req.body);
     res.status(201).send("Problem added successfully");
   } catch (err) {

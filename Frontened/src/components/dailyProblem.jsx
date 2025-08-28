@@ -11,9 +11,9 @@ export default function DailyProblem() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="absolute top-6 right-6 z-20 w-80"
+            className="w-full"
         >
-            <div className="relative bg-gray-700/20 mb-10 backdrop-blur-lg border border-gray-700 rounded-xl p-4 shadow-2xl overflow-hidden">
+            <div className="relative bg-gray-700/20 backdrop-blur-lg border border-gray-700 rounded-xl p-4 shadow-2xl overflow-hidden">
                 {/* Decorative elements */}
                 <div className="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-gradient-to-br from-amber-500/20 to-transparent blur-xl"></div>
                 <div className="absolute -bottom-5 -right-5 w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600/20 to-transparent blur-xl"></div>
@@ -31,14 +31,14 @@ export default function DailyProblem() {
                 {/* Problem title */}
                 <motion.h3 
                     whileHover={{ scale: 1.02 }}
-                    className="text-lg font-semibold text-white mb-2 cursor-default relative z-10"
+                    className="text-lg font-semibold text-white mb-2 cursor-default relative z-10 line-clamp-2"
                 >
                     {dailyProblem?.title}
                 </motion.h3>
                 
                 {/* Tags and difficulty */}
-                <div className="flex flex-wrap gap-2 mb-2 relative z-10">
-                    {dailyProblem?.tags.map((tag) => (
+                <div className="flex flex-wrap gap-2 mb-3 relative z-10">
+                    {dailyProblem?.tags?.slice(0, 2).map((tag) => (
                         <span 
                             key={tag}
                             className="px-2 py-1 text-xs rounded-md bg-gray-700/50 text-gray-300"
@@ -46,6 +46,11 @@ export default function DailyProblem() {
                             {tag}
                         </span>
                     ))}
+                    {dailyProblem?.tags?.length > 2 && (
+                        <span className="px-2 py-1 text-xs rounded-md bg-gray-700/50 text-gray-300">
+                            +{dailyProblem.tags.length - 2} more
+                        </span>
+                    )}
                 </div>
                 
                 <div className="flex justify-between items-center relative z-10">
