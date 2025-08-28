@@ -41,9 +41,9 @@ export default function Navbar() {
           {/* Navigations */}
           <div className="hidden md:flex items-center space-x-1">
             <NavItem icon={<Home size={18} />} text="Home" onClick={() => handelNavigation('')} />
-            <NavItem icon={<User size={18} />} text="About" onClick={() => handelNavigation('about')} />
+            {/* <NavItem icon={<User size={18} />} text="About" onClick={() => handelNavigation('about')} /> */}
             <NavItem icon={<Code size={18} />} text="Problems" onClick={() => handelNavigation('problems')} />
-            <NavItem icon={<GitBranch size={18} />} text="Discuss" onClick={() => handelNavigation('discuss')} />
+            {/* <NavItem icon={<GitBranch size={18} />} text="Discuss" onClick={() => handelNavigation('discuss')} /> */}
             <NavItem icon={<BarChart2 size={18} />} text="Visualize DSA" onClick={() => window.location.href = 'https://sortify-dsa.vercel.app/'} />
           </div>
 
@@ -102,9 +102,9 @@ export default function Navbar() {
             className="md:hidden mt-4 space-y-2"
           >
             <MobileNavItem icon={<Home size={18} />} text="Home" onClick={() => handelNavigation('')} />
-            <MobileNavItem icon={<User size={18} />} text="About" onClick={() => handelNavigation('about')} />
+            {/* <MobileNavItem icon={<User size={18} />} text="About" onClick={() => handelNavigation('about')} /> */}
             <MobileNavItem icon={<Code size={18} />} text="Problems" onClick={() => handelNavigation('problems')} />
-            <MobileNavItem icon={<GitBranch size={18} />} text="Discuss" onClick={() => handelNavigation('discuss')} />
+            {/* <MobileNavItem icon={<GitBranch size={18} />} text="Discuss" onClick={() => handelNavigation('discuss')} /> */}
             <MobileNavItem icon={<BarChart2 size={18} />} text="Visualize DSA" onClick={() => window.location.href = 'https://sortify-dsa.vercel.app/'} />
             {!isAuthenticated && (
               <>

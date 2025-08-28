@@ -25,15 +25,17 @@ import {
   CodeBracketIcon,
   PlayIcon,
   PaperAirplaneIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from "@heroicons/react/24/outline";
 import { Bot } from "lucide-react";
-
 
 export default function ProblemPage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Description");
   const [activeTestCaseTab, setActiveTestCaseTab] = useState("Test Cases");
+  const [isMobileEditorOpen, setIsMobileEditorOpen] = useState(false);
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const { loading: problemLoading } = useSelector((state) => state.problem);
@@ -41,8 +43,8 @@ export default function ProblemPage() {
   const { loading: runLoading, waiting: runWaiting } = useSelector((state) => state.run);
   const editorRef = useRef();
   const [language, setLanguage] = useState("cpp");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  
   const bgColor = "bg-[#0f0f0f]";
   const secondaryBg = "bg-[#0f0f0f]";
   const accentColor = "text-[#EA763F]";
@@ -51,6 +53,16 @@ export default function ProblemPage() {
   const hoverGradient = "hover:from-amber-500 hover:to-orange-600";
   const borderColor = "border-[#2d3748]";
   const textColor = "text-gray-100";
+
+  // Handle window resize for responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleRunCode = () => {
     const code = editorRef.current?.getValue();
@@ -105,12 +117,9 @@ export default function ProblemPage() {
 
   const tabs = [
     { name: "Description", icon: BookOpenIcon },
-    { name: "Editorial", icon: PencilIcon },
-    { name: "Solutions", icon: LightBulbIcon },
     { name: "Submissions", icon: ClockIcon },
     { name: "Answer", icon: DocumentTextIcon },
     { name: "AskAi", icon: Bot }
-
   ];
 
   if (problemLoading) {
@@ -122,18 +131,18 @@ export default function ProblemPage() {
   }
 
   return (
-    <div className={`flex flex-col lg:flex-row h-screen ${bgColor} ${textColor} overflow-hidden`}>
+    <div className={`flex flex-col lg:flex-row min-h-screen ${bgColor} ${textColor} overflow-hidden`}>
       {/* Left Panel - Problem Content */}
-      <div className={`w-full lg:w-1/2 flex flex-col border-r ${borderColor} overflow-hidden ${secondaryBg}`}>
+      <div className={`w-full lg:w-1/2 flex flex-col border-b lg:border-r ${borderColor} overflow-hidden ${secondaryBg}`}>
         {/* Tab Navigation */}
-        <div className={`flex ${secondaryBg} px-2 border-b ${borderColor}`}>
+        <div className={`flex ${secondaryBg} px-2 border-b ${borderColor} overflow-x-auto scrollbar-hide`}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.name}
                 onClick={() => setActiveTab(tab.name)}
-                className={`px-2 py-3 lg:px-3 lg:py-3 text-xs  relative flex items-center
+                className={`px-2 py-3 lg:px-3 lg:py-3 text-xs relative flex items-center whitespace-nowrap
                   ${
                     activeTab === tab.name
                       ? `${accentColor}`
@@ -141,13 +150,13 @@ export default function ProblemPage() {
                   }`}
               >
                 <Icon
-                  className={`h-5 w-5 ${
+                  className={`h-4 w-4 lg:h-5 lg:w-5 mr-1 ${
                     activeTab === tab.name
                       ? `${accentColor}`
                       : `text-gray-400`
                   }`}
                 />
-                <span>{tab.name}</span>
+                <span className="hidden sm:inline">{tab.name}</span>
                 {activeTab === tab.name && (
                   <motion.div
                     className={`absolute bottom-0 left-0 right-0 h-1 ${buttonGradient}`}
@@ -160,7 +169,7 @@ export default function ProblemPage() {
         </div>
 
         {/* Content Area */}
-        <div className={`flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2d3748] scrollbar-track-[#1a1a1a] p-6 ${secondaryBg}`}>
+        <div className={`flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#2d3748] scrollbar-track-[#1a1a1a] p-4 lg:p-6 ${secondaryBg}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -171,8 +180,6 @@ export default function ProblemPage() {
               className="h-full"
             >
               {activeTab === "Description" && <Description />}
-              {activeTab === "Editorial" && <Editorial />}
-              {activeTab === "Solutions" && <Solutions />}
               {activeTab === "Submissions" && <Submissions />}
               {activeTab === "Answer" && <Answer />}
               {activeTab === "AskAi" && <AskAi />}
@@ -181,18 +188,38 @@ export default function ProblemPage() {
         </div>
       </div>
 
-      {/* Right Panel - Code Editor */}
-      <div className={`w-full lg:w-1/2 flex flex-col ${secondaryBg} border-t lg:border-t-0 `}>
+      {/* Mobile Editor Toggle Button */}
+      {isMobile && (
+        <button
+          onClick={() => setIsMobileEditorOpen(!isMobileEditorOpen)}
+          className={`lg:hidden flex items-center justify-between w-full p-4 ${bgColor} border-b ${borderColor}`}
+        >
+          <div className="flex items-center">
+            <CodeBracketIcon className="h-5 w-5 mr-2 text-amber-400" />
+            <span className="font-medium">Code Editor</span>
+          </div>
+          {isMobileEditorOpen ? (
+            <ChevronUpIcon className="h-5 w-5 text-gray-400" />
+          ) : (
+            <ChevronDownIcon className="h-5 w-5 text-gray-400" />
+          )}
+        </button>
+      )}
+
+      {/* Right Panel - Code Editor (visible on desktop, conditionally on mobile) */}
+      <div className={`w-full lg:w-1/2 flex flex-col ${secondaryBg} ${isMobile && !isMobileEditorOpen ? 'hidden' : 'flex'} ${isMobile ? 'h-[70vh]' : ''}`}>
         {/* Editor Header */}
-        <div className={`p-4 border-b ${borderColor} flex items-center space-x-3 ${bgColor}`}>
-          <CodeBracketIcon className={`h-6 w-6 ${accentColor}`} />
-          <h2 className={`font-mono font-semibold text-lg lg:text-xl `}>
-            Code Editor
-          </h2>
+        <div className={`p-3 lg:p-4 border-b ${borderColor} flex items-center justify-between ${bgColor}`}>
+          <div className="flex items-center space-x-3">
+            <CodeBracketIcon className={`h-5 w-5 lg:h-6 lg:w-6 ${accentColor}`} />
+            <h2 className={`font-mono font-semibold text-base lg:text-xl`}>
+              Code Editor
+            </h2>
+          </div>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className={`ml-3 bg-[#1a1a1a] border ${borderColor} text-gray-200 rounded px-3 py-1 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
+            className={`bg-[#1a1a1a] border ${borderColor} text-gray-200 rounded px-2 py-1 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
           >
             <option value="cpp">C++</option>
             <option value="c">C</option>
@@ -203,30 +230,30 @@ export default function ProblemPage() {
         </div>
 
         {/* Code Editor Area */}
-        <div className={`h-[40vh] lg:h-[40%]  overflow-hidden border-2 border-gray-700 m-1`}>
-          {/* <CodeEditor ref={editorRef} language={language} /> */}
+        <div className={`flex-1 lg:h-[40%] overflow-hidden border-2 border-gray-700 m-1`}>
+          <CodeEditor ref={editorRef} language={language} />
         </div>
 
         {/* Action Buttons */}
-        <div className={`p-4 flex flex-col sm:flex-row gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
+        <div className={`p-3 lg:p-4 flex flex-col sm:flex-row gap-2 lg:gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
           <motion.button
-            // onClick={handleRunCode}
+            onClick={handleRunCode}
             disabled={runLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className={`px-5 py-2.5 bg-[#1e293b] hover:bg-[#2d3748] text-gray-200 rounded-lg text-sm lg:text-base font-medium transition-all flex items-center space-x-2 disabled:opacity-70 border border-[#4a5568] hover:border-amber-400 shadow`}
+            className={`px-4 py-2 lg:px-5 lg:py-2.5 bg-[#1e293b] hover:bg-[#2d3748] text-gray-200 rounded-lg text-xs lg:text-sm font-medium transition-all flex items-center justify-center space-x-2 disabled:opacity-70 border border-[#4a5568] hover:border-amber-400 shadow`}
           >
-            <PlayIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+            <PlayIcon className="h-4 w-4" />
             <span>{runLoading ? 'Running...' : 'Run Code'}</span>
           </motion.button>
           <motion.button
-            // onClick={handleSubmitProblem}
+            onClick={handleSubmitProblem}
             disabled={submitLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className={`px-5 py-2.5 ${buttonGradient} ${hoverGradient} text-white rounded-lg text-sm lg:text-base font-bold transition-all shadow-lg flex items-center space-x-2 disabled:opacity-70`}
+            className={`px-4 py-2 lg:px-5 lg:py-2.5 ${buttonGradient} ${hoverGradient} text-white rounded-lg text-xs lg:text-sm font-bold transition-all shadow-lg flex items-center justify-center space-x-2 disabled:opacity-70`}
           >
-            <PaperAirplaneIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+            <PaperAirplaneIcon className="h-4 w-4" />
             <span>{submitLoading ? 'Submitting...' : 'Submit'}</span>
           </motion.button>
         </div>
@@ -237,7 +264,7 @@ export default function ProblemPage() {
           <div className={`flex border-b ${borderColor} bg-[#1a1a1a]`}>
             <button
               onClick={() => setActiveTestCaseTab("Test Cases")}
-              className={`px-4 py-3 lg:px-6 lg:py-3 text-sm lg:text-base font-medium ${
+              className={`px-3 py-2 lg:px-6 lg:py-3 text-xs lg:text-base font-medium ${
                 activeTestCaseTab === "Test Cases"
                   ? `${accentColor} border-b-2 ${accentBorder}`
                   : `text-gray-400 hover:text-gray-200`
@@ -247,7 +274,7 @@ export default function ProblemPage() {
             </button>
             <button
               onClick={() => setActiveTestCaseTab("Test Results")}
-              className={`px-4 py-3 lg:px-6 lg:py-3 text-sm lg:text-base font-medium ${
+              className={`px-3 py-2 lg:px-6 lg:py-3 text-xs lg:text-base font-medium ${
                 activeTestCaseTab === "Test Results"
                   ? `${accentColor} border-b-2 ${accentBorder}`
                   : `text-gray-400 hover:text-gray-200`
@@ -258,11 +285,13 @@ export default function ProblemPage() {
           </div>
 
           {/* Test Case Content */}
-          {activeTestCaseTab === "Test Cases" ? (
-            <TestCases />
-          ) : (
-            <TestCaseResults />
-          )}
+          <div className="flex-1 overflow-auto">
+            {activeTestCaseTab === "Test Cases" ? (
+              <TestCases />
+            ) : (
+              <TestCaseResults />
+            )}
+          </div>
         </div>
       </div>
     </div>
