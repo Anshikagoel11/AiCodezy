@@ -91,10 +91,10 @@ const createProblem = async (req, res) => {
 
       
       const getResult = await submitToken(getToken);
-      console.log('result : ',getResult)
+      // console.log('result : ',getResult)
       for(const i of getResult){
-       console.log('id : ',i?.status?.id)
-      console.log('status : ',i?.status?.description)
+      //  console.log('id : ',i?.status?.id)
+      // console.log('status : ',i?.status?.description)
       }
      
 

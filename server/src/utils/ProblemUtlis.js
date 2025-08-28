@@ -30,7 +30,7 @@ const getIdByLanguage=(lang)=>{
 
 const submitBatch = async (submissions )=>{
 
-  console.log("In submit Batch")
+  // console.log("In submit Batch")
 const options = {
   method: 'POST',
   url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
@@ -46,16 +46,17 @@ const options = {
     submissions
   }
 };
-console.log(2)
+
 async function fetchData() {
 	try {
-    console.log("in fetch")
+    
 		const response = await axios.request({...options,timeout:10000});  //axios have inbuild function that it convert incoming data into json no need to manually convert data and handel all status of requests
-    console.log("after fetch")
-		return response.data;
+   
+		return response.data.submissions; //changes this 
+
    
 	} catch (error) {
-    console.log("error in fetch")
+  
 		console.error(error);
 	}
 }
@@ -65,7 +66,10 @@ return await fetchData();  //return array of tokens
 
 
 const submitToken = async (getToken) => {
+ 
   const tokens = getToken.map((obj) => obj.token);
+ 
+
   const options = {
     method: 'GET',
     url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
