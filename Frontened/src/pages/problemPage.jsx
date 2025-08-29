@@ -237,7 +237,7 @@ export default function ProblemPage() {
         {/* Action Buttons */}
         <div className={`p-3 lg:p-4 flex flex-col sm:flex-row gap-2 lg:gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
           <motion.button
-            onClick={handleRunCode}
+            // onClick={handleRunCode}
             disabled={runLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
@@ -247,7 +247,7 @@ export default function ProblemPage() {
             <span>{runLoading ? 'Running...' : 'Run Code'}</span>
           </motion.button>
           <motion.button
-            onClick={handleSubmitProblem}
+            // onClick={handleSubmitProblem}
             disabled={submitLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
