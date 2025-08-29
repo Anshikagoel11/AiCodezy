@@ -17,7 +17,7 @@ app.use(express.json());
 
 //allows cors
 app.use(cors({
-    origin:'http://localhost:5173',   // * - for all origin
+    origin:['http://localhost:5173','ai-codezy.vercel.app'],   // * - for all origin
     credentials:true
 }))
 
