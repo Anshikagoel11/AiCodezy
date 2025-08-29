@@ -58,7 +58,7 @@ export default function AllProblems() {
     }
   }, []);
 
-  const filteredProblems = problems.filter((problem) => {
+  const filteredProblems = problems?.filter((problem) => {
     const matchesSearch = problem.title
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase());

@@ -23,7 +23,7 @@ app.use(cors({
 
 async function connection(){
 try{
-    await Promise.all[main(),redisClient.connect()]
+    await Promise.all([main(),redisClient.connect()])
     console.log('connected with db')
     app.listen(process.env.PORT,()=>{
         console.log('server is listening at some port number')
