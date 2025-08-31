@@ -10,15 +10,16 @@ import {
   Home,
   BarChart2
 } from "react-feather";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { logoutUser } from "../redux/authSlicer";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-
+const dispatch = useDispatch();
   const handleNavigation = (path) => {
     navigate(`/${path}`);
   };
@@ -61,6 +62,7 @@ export default function Navbar() {
                     <User className="text-orange-700" size={16} />
                   </div>
                   <span className="text-white hidden md:inline">{user.firstName}</span>
+                  <button onClick={()=>dispatch(logoutUser())}>Logout</button>
                 </motion.button>
               </div>
             ) : (
