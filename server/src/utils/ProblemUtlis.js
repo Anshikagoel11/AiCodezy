@@ -38,8 +38,11 @@ const submitBatch = async (submissions) => {
   };
 
   try {
+    console.log(0)
     const response = await axios.request({ ...options, timeout: 10000 });
+    console.log(1)
     console.log('response from submit batch in try is : ',response)
+    console.log(2)
     // return array of tokens only
     return response.data;
   } catch (error) {
