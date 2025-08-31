@@ -62,7 +62,7 @@ const dispatch = useDispatch();
                     <User className="text-orange-700" size={16} />
                   </div>
                   <span className="text-white hidden md:inline">{user.firstName}</span>
-                  <button onClick={()=>dispatch(logoutUser())} className="rounded p-1 bg-amber-500 text-black text-xl m-1">Logout</button>
+                  <button onClick={()=>dispatch(logoutUser())} className="rounded p-1 bg-amber-500 text-black text-xs m-1">Logout</button>
                 </motion.button>
               </div>
             ) : (
