@@ -8,7 +8,7 @@ export const submitProblem = createAsyncThunk(
   
     try {
       const response = await axiosClient.post(`submission/submit/${id}` , submitCode);
-      console.log(response.data)
+      // console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue({

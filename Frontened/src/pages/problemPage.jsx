@@ -42,7 +42,7 @@ export default function ProblemPage() {
   const { loading: submitLoading, waiting: submitWaiting } = useSelector((state) => state.submit);
   const { loading: runLoading, waiting: runWaiting } = useSelector((state) => state.run);
   const editorRef = useRef();
-  const [language, setLanguage] = useState("javascript");
+  const [language, setLanguage] = useState("java");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   const bgColor = "bg-[#0f0f0f]";
@@ -51,6 +51,8 @@ export default function ProblemPage() {
   const accentBorder = "border-amber-400";
   const buttonGradient = "bg-gradient-to-r from-orange-400 to-orange-500";
   const hoverGradient = "hover:from-amber-500 hover:to-orange-600";
+
+
   const borderColor = "border-[#2d3748]";
   const textColor = "text-gray-100";
 
@@ -66,14 +68,12 @@ export default function ProblemPage() {
 
   const handleRunCode = () => {
     const code = editorRef.current?.getValue();
-    if (!code || code.trim() === "") {
-      toast.error("Please write some code before running");
-      return;
-    }
+
     const runCode = {
       code: code,
-      language: language,
+      language: language.toLocaleLowerCase(),
     };
+
     dispatch(runProblemAction({ runCode, id }));
   };
 
@@ -218,14 +218,12 @@ export default function ProblemPage() {
           </div>
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => setLanguage(e.target.value.toLowerCase())}
             className={`bg-[#1a1a1a] border ${borderColor} text-gray-200 rounded px-2 py-1 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent`}
           >
-            <option value="cpp">C++</option>
-            <option value="c">C</option>
+            <option value="c++">C++</option>
             <option value="java">Java</option>
             <option value="javascript">JavaScript</option>
-            <option value="rust">Rust</option>
           </select>
         </div>
 
@@ -237,7 +235,7 @@ export default function ProblemPage() {
         {/* Action Buttons */}
         <div className={`p-3 lg:p-4 flex flex-col sm:flex-row gap-2 lg:gap-3 justify-end ${bgColor} border-t ${borderColor}`}>
           <motion.button
-            // onClick={handleRunCode}
+            onClick={handleRunCode}
             disabled={runLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
@@ -247,7 +245,7 @@ export default function ProblemPage() {
             <span>{runLoading ? 'Running...' : 'Run Code'}</span>
           </motion.button>
           <motion.button
-            // onClick={handleSubmitProblem}
+            onClick={handleSubmitProblem}
             disabled={submitLoading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}

@@ -3,15 +3,17 @@ import axiosClient from "../utils/axiosClient";
 
 // redux API handling
 export const fetchSolvedProblems = createAsyncThunk(
-  "solvedProblems/fetchSolvedProblems", 
- 
-  async ( _ , { rejectWithValue }) => {
+  "solvedProblems/fetchSolvedProblems",
+
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get(`submission/ProblemsSolvedByUser`);
       return response.data;
     } catch (error) {
       return rejectWithValue({
-        message: error.response?.data?.message || "Failed to fetch problem solved by user",
+        message:
+          error.response?.data?.message ||
+          "Failed to fetch problem solved by user",
         status: error.response?.status,
         showToUser: true,
       });
@@ -21,14 +23,14 @@ export const fetchSolvedProblems = createAsyncThunk(
 
 // Initial state
 const initialState = {
-  solvedproblems: null,  
+  solvedproblems: null,
   loading: false,
   error: null,
 };
 
 // Creating slice
 const solvedProblemsSlice = createSlice({
-  name: "solvedProblems", 
+  name: "solvedProblems",
   initialState,
   extraReducers: (builder) => {
     builder
@@ -42,7 +44,8 @@ const solvedProblemsSlice = createSlice({
       })
       .addCase(fetchSolvedProblems.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch problems solved by user";
+        state.error =
+          action.payload?.message || "Failed to fetch problems solved by user";
       });
   },
 });

@@ -38,6 +38,7 @@ const submitProblems = async (req, res) => {
       source_code: code,
       language_id: languageId,
       stdin: testcase.input,
+      
       expected_output: testcase.output,
     }));
 
@@ -95,16 +96,20 @@ const submitProblems = async (req, res) => {
 
 const runProblems = async (req, res) => {
   try {
+
     const problemId = req.params.id;
     const { code, language } = req.body;
 
-    if (!problemId || !code || !language) {
-      return res.status(400).send({ message: "Some field missing" });
+  
+    const problem = await Problem.findById(problemId);
+   
+
+    if (!problem) {
+      return res.status(400).send({ message: "No problem found with this id" });
     }
 
-    const problem = await Problem.findById(problemId);
-    if (!problem) {
-      return res.status(400).send({ message: "No problem found" });
+    if (!problem.visibleTestCases || problem.visibleTestCases.length === 0) {
+      return res.status(400).send({ message: "No visible test cases available" });
     }
 
     const languageId = getIdByLanguage(language);
@@ -117,6 +122,13 @@ const runProblems = async (req, res) => {
     }));
 
     const getToken = await submitBatch(submissions);
+
+// console.log('getToken from subitBatch function : ', getToken)
+    const tokens = Array.isArray(getToken) ? getToken : getToken.tokens;
+
+if (!tokens || tokens.length === 0) {
+  return res.status(400).json({ message: "No tokens received from Judge0" });
+}
     const getResult = await submitToken(getToken);
 
     let allPassed = true;
@@ -154,7 +166,6 @@ const runProblems = async (req, res) => {
       code,
     });
   } catch (err) {
-    console.error("Run Error:", err);
     const errorMsg =
       err?.message ||
       JSON.stringify(err) ||

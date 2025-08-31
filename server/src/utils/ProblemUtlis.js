@@ -13,60 +13,45 @@ const waitOneSec = (time) => {
 };
 
 
-
-
 const getIdByLanguage=(lang)=>{
     const languageWithId = {
-        "c":50,
-        "cpp":54,
+        "c++":54,
         "java":62,
         "javascript":63,
-        "rust":73
     }
     return languageWithId[lang.toLowerCase()];
 }
 
 
 
-const submitBatch = async (submissions )=>{
+const submitBatch = async (submissions) => {
+  const options = {
+    method: 'POST',
+    url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
+    params: { base64_encoded: 'false' },
+    headers: {
+      'x-rapidapi-key': process.env.judge0_key,
+      'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+      'Content-Type': 'application/json'
+    },
+    data: { submissions }
+  };
 
-  // console.log("In submit Batch")
-const options = {
-  method: 'POST',
-  url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
-  params: {
-    base64_encoded: 'false'
-  },
-  headers: {
-    'x-rapidapi-key': process.env.judge0_key,
-    'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
-    'Content-Type': 'application/json'
-  },
-  data: {
-    submissions
+  try {
+    const response = await axios.request({ ...options, timeout: 10000 });
+    console.log('response from submit batch in try is : ',response)
+    // return array of tokens only
+    return response.data;
+  } catch (error) {
+    console.error("Error in submitBatch:", error.message);
+    throw error;
   }
 };
-
-async function fetchData() {
-	try {
-    
-		const response = await axios.request({...options,timeout:10000});  //axios have inbuild function that it convert incoming data into json no need to manually convert data and handel all status of requests
-   
-		return response.data.submissions; //changes this 
-
-   
-	} catch (error) {
-  
-		console.error(error);
-	}
-}
-
-return await fetchData();  //return array of tokens
-}
 
 
 const submitToken = async (getToken) => {
  
+  
   const tokens = getToken.map((obj) => obj.token);
  
 
@@ -106,9 +91,6 @@ const submitToken = async (getToken) => {
 
   throw new Error("Timeout: Judge0 did not return complete results in time");
 };
-
-
-
 
 const statusIdValue = (statusId)=>{
     const codeExecutionResult={

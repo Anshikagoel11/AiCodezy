@@ -22,10 +22,15 @@ const CodeEditor = React.forwardRef(({ language }, ref) => {
   }));
 
   const initialCode = useMemo(() => {
+
     if (!problem?.codeFunction) return "// start code here";
+    
+    
     const found = problem.codeFunction.find(
-      (item) => item.language.toLowerCase() === language.toLowerCase()
+      (item) =>  item.language.toLowerCase() === language.toLowerCase()
+   
     );
+
     return found?.initialCode || "// start code here";
   }, [problem, language]);
 

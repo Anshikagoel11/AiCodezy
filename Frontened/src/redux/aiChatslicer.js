@@ -6,7 +6,8 @@ export const fetchAiResponse = createAsyncThunk(
   "aiResponse/fetchAiResponse",
   async ({ chatHistory, problemDetails }, { rejectWithValue, dispatch }) => {
     try {
-      const response = await fetch(`${axiosClient.defaults.baseURL}/ai/chat`, {
+    
+      const response = await fetch(`${axiosClient.defaults.baseURL}ai/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

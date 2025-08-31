@@ -21,6 +21,9 @@ app.use(cors({
     credentials:true
 }))
 
+// app.use(cors({ origin: "*"}));
+
+
 async function connection(){
 try{
     await Promise.all([main(),redisClient.connect()])
