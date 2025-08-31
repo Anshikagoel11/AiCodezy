@@ -108,9 +108,10 @@ export default function Navbar() {
             <MobileNavItem icon={<BarChart2 size={18} />} text="Visualize DSA" onClick={() => window.location.href = 'https://sortify-dsa.vercel.app/'} />
             {!isAuthenticated && (
               <>
-                <MobileNavItem text="Sign In" />
+                <MobileNavItem text="Sign In" onClick={() => handelNavigation('/auth')}/>
                 <MobileNavItem
                   text="Sign Up"
+                  onClick={() => handelNavigation('/auth')}
                   className="bg-gradient-to-r from-orange-500 to-orange-600 text-white"
                 />
               </>

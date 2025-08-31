@@ -7,7 +7,6 @@ require("dotenv").config();
 
 const register = async (req, res) => {
   try {
-   
     validate(req.body);
 
     const { emailId, password } = req.body;
@@ -34,7 +33,12 @@ const register = async (req, res) => {
       process.env.jwt_secret_key,
       { expiresIn: 60 * 60 }
     );
-    res.cookie("token", token, { maxAge: 60 * 60 * 1000 }); //time in cookie here is given in ms
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 60 * 60 * 1000,
+    }); //time in cookie here is given in ms
 
     res.status(200).json({
       user: userDetails,
@@ -42,7 +46,7 @@ const register = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
-      message:err.message,
+      message: err.message,
     });
   }
 };
@@ -76,7 +80,13 @@ const login = async (req, res) => {
       process.env.jwt_secret_key,
       { expiresIn: 60 * 60 }
     );
-    res.cookie("token", token, { maxAge: 60 * 60 * 1000 });
+    console.log("token is : ", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 60 * 60 * 1000,
+    });
 
     res.status(200).json({
       user: userDetails,
@@ -124,7 +134,12 @@ const logout = async (req, res) => {
     await redisClient.set(`token:${token}`, "blocked");
     redisClient.expireAt(`token:${token}`, payload.exp);
 
-    res.clearCookie("token", null, { expires: new Date(Date.now()) });
+    res.clearCookie("token", null, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(Date.now()),
+    });
     res.status(204).send("logout successfully");
   } catch (err) {
     res.status(400).send("Error occured: " + err);
@@ -174,7 +189,12 @@ const adminRegister = async (req, res) => {
       process.env.jwt_secret_key,
       { expiresIn: 60 * 60 }
     );
-    res.cookie("token", token, { maxAge: 60 * 60 * 1000 }); //time in cookie here is given in ms
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 60 * 60 * 1000,
+    }); //time in cookie here is given in ms
     res.status(201).send("register successfully");
   } catch (err) {
     res.status(400).send("Error occured: " + err);
