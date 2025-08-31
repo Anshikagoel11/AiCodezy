@@ -80,7 +80,7 @@ const login = async (req, res) => {
       process.env.jwt_secret_key,
       { expiresIn: 60 * 60 }
     );
-    console.log("token is : ", token);
+    // console.log("token is : ", token);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
