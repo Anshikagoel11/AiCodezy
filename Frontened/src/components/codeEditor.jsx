@@ -40,6 +40,8 @@ const CodeEditor = React.forwardRef(({ language }, ref) => {
     }
   }, [initialCode]);
 
+  if(language=='c++') language='cpp';  //since monaco code editor uses cpp not c++ but in database i store data as c++ so instead of alter complete data , i fix here
+ 
   return (
     <div className="h-full w-full">
       <Editor

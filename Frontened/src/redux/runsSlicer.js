@@ -4,12 +4,16 @@ import axiosClient from "../utils/axiosClient";
 // redux API handling
 export const runProblem = createAsyncThunk(
   "run/runProblem", 
-  async ({runCode, id}, { rejectWithValue }) => {
   
+  async ({runCode, id}, { rejectWithValue }) => {
+    console.log('from runSlicer:');
+  console.log(runCode.language)
     try {
       
       const response = await axiosClient.post(`submission/run/${id}` , runCode);
+      console.log(response)
       return response.data;
+      
     } catch (error) {
       return rejectWithValue({
         message: error.response?.data?.message || "Failed to run problem",

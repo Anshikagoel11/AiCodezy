@@ -95,12 +95,14 @@ const submitProblems = async (req, res) => {
 };
 
 const runProblems = async (req, res) => {
+  
   try {
-
+ console.log('laguage in backend ')
     const problemId = req.params.id;
+   console.log('laguage in backend')
     const { code, language } = req.body;
 
-  
+ console.log('laguage in backend : ' , language)
     const problem = await Problem.findById(problemId);
    
 
