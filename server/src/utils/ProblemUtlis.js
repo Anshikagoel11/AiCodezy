@@ -15,7 +15,7 @@ const waitOneSec = (time) => {
 
 const getIdByLanguage=(lang)=>{
     const languageWithId = {
-        "c++":54,
+        "c++":76,
         "java":62,
         "javascript":63,
     }
@@ -23,8 +23,8 @@ const getIdByLanguage=(lang)=>{
 }
 
 
-
 const submitBatch = async (submissions) => {
+ 
   const options = {
     method: 'POST',
     url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
@@ -39,8 +39,9 @@ const submitBatch = async (submissions) => {
 
   try {
 
+
     const response = await axios.request({ ...options, timeout: 10000 });
-  
+
     // return array of tokens only
     return response.data;
   } catch (error) {
@@ -52,10 +53,10 @@ const submitBatch = async (submissions) => {
 
 const submitToken = async (getToken) => {
  
-  
+ 
   const tokens = getToken.map((obj) => obj.token);
  
-
+  
   const options = {
     method: 'GET',
     url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
@@ -69,15 +70,18 @@ const submitToken = async (getToken) => {
       'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
     }
   };
-
+ 
   let retryCount = 0;
   const maxRetries = 10; // 10 seconds total wait
 
   while (retryCount < maxRetries) {
     try {
+       
       const response = await axios.request(options);
+        
+        console.log('response :',response)
       const result = response.data.submissions;
-
+ 
       const allCompleted = result.every((obj) => obj.status_id > 2);
       if (allCompleted) return result;
 
@@ -85,7 +89,8 @@ const submitToken = async (getToken) => {
       await waitOneSec(1000);
 
     } catch (error) {
-      console.error("Error fetching Judge0 submission result:", error.message);
+      
+      console.error("Error fetching Judge0 submission result in problemutils:", error.message);
       throw error;
     }
   }
