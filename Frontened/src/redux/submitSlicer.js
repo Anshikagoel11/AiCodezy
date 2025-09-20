@@ -5,10 +5,10 @@ import axiosClient from "../utils/axiosClient";
 export const submitProblem = createAsyncThunk(
   "submit/submitProblem", 
   async ({submitCode, id}, { rejectWithValue }) => {
-  
+  // console.log(submitCode.language)
     try {
       const response = await axiosClient.post(`submission/submit/${id}` , submitCode);
-      // console.log(response.data)
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue({

@@ -42,7 +42,7 @@ export default function ProblemPage() {
   const { loading: submitLoading, waiting: submitWaiting } = useSelector((state) => state.submit);
   const { loading: runLoading, waiting: runWaiting } = useSelector((state) => state.run);
   const editorRef = useRef();
-  const [language, setLanguage] = useState("java");
+  const [language, setLanguage] = useState("c++");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   const bgColor = "bg-[#0f0f0f]";

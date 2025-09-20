@@ -6,12 +6,11 @@ export const runProblem = createAsyncThunk(
   "run/runProblem", 
   
   async ({runCode, id}, { rejectWithValue }) => {
-    console.log('from runSlicer:');
-  console.log(runCode.language)
+  // console.log(runCode.language)
     try {
-      
+      console.log(runCode.language)
       const response = await axiosClient.post(`submission/run/${id}` , runCode);
-      console.log(response)
+      // console.log(response)
       return response.data;
       
     } catch (error) {
