@@ -333,7 +333,7 @@ const getDailyProblem = async (req, res) => {
     const randomProblem = problems[Math.floor(Math.random() * problems.length)];
 
     // 5. store in redis for 24 hours 
-   await redisClient.setEx(redisKey, 60 * 60 * 24, JSON.stringify(randomProblem));  // storeing by converting in string since redis store data in key-value pair in string fromat
+   await redisClient.setEx(redisKey, 60 * 60 * 24 * 10, JSON.stringify(randomProblem));  // storeing by converting in string since redis store data in key-value pair in string fromat
 
     return res.json(randomProblem);
   } catch (err) {
