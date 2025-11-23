@@ -41,7 +41,7 @@ const aiChatResponse = async (req, res) => {
 
     // Correct model + version usage
     const model = ai.getGenerativeModel({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-2.5-flash",
     });
 
     const stream = await model.generateContentStream({
