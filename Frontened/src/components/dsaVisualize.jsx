@@ -37,171 +37,28 @@ const algorithms = [
   },
 ];
 
-export default function AlgorithmVisualizationGrid() {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationStates, setAnimationStates] = useState(
-    algorithms.map(() => ({ step: 0, data: null }))
+export default function AlgorithmVisualizationGrid({sectionRef}) {
+  const [algoData, setAlgoData] = useState(
+    algorithms.map(() => ({data: null }))
   );
 
   // Initialize animation data
   useEffect(() => {
     const initialStates = algorithms.map((algo) => {
       if (algo.category === "sorting") {
-        return { step: 0, data: [...algo.array] };
+        return { data: [...algo.array] };
       } else if (algo.category === "searching") {
-        return { step: 0, data: { low: 0, high: algo.array.length - 1, mid: -1 } };
+        return { data: { low: 0, high: algo.array.length - 1, mid: -1 } };
       } else if (algo.category === "structures") {
-        return { step: 0, data: [...algo.elements] };
+        return { data: [...algo.elements] };
       }
-      return { step: 0, data: null };
+      return { data: null };
     });
-    setAnimationStates(initialStates);
+    setAlgoData(initialStates);
   }, []);
 
-  const startAnimations = () => {
-    setIsAnimating(true);
-    
-    // Reset all animations
-    const resetStates = algorithms.map((algo) => {
-      if (algo.category === "sorting") {
-        return { step: 0, data: [...algo.array] };
-      } else if (algo.category === "searching") {
-        return { step: 0, data: { low: 0, high: algo.array.length - 1, mid: -1 } };
-      } else if (algo.category === "structures") {
-        return { step: 0, data: [...algo.elements] };
-      }
-      return { step: 0, data: null };
-    });
-    setAnimationStates(resetStates);
-
-    // Start each algorithm animation
-    algorithms.forEach((algo, index) => {
-      if (algo.category === "sorting") {
-        animateBubbleSort(index);
-      } else if (algo.category === "searching") {
-        animateBinarySearch(index);
-      } else if (algo.category === "structures") {
-        animateStack(index);
-      }
-    });
-  };
-
-  const animateBubbleSort = (index) => {
-    const algo = algorithms[index];
-    let array = [...algo.array];
-    let step = 0;
-    let i = 0;
-    let j = 0;
-    let swapped = false;
-
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        clearInterval(interval);
-        return;
-      }
-
-      if (i < array.length - 1) {
-        if (j < array.length - i - 1) {
-          // Highlight elements being compared
-          if (array[j] > array[j + 1]) {
-            // Swap elements
-            [array[j], array[j + 1]] = [array[j + 1], array[j]];
-            swapped = true;
-          }
-          j++;
-        } else {
-          if (!swapped) {
-            // Array is sorted
-            clearInterval(interval);
-            return;
-          }
-          i++;
-          j = 0;
-          swapped = false;
-        }
-
-        setAnimationStates(prev => {
-          const newStates = [...prev];
-          newStates[index] = { step: step++, data: [...array] };
-          return newStates;
-        });
-      } else {
-        clearInterval(interval);
-      }
-    }, 500);
-  };
-
-  const animateBinarySearch = (index) => {
-    const algo = algorithms[index];
-    const array = algo.array;
-    const target = algo.target;
-    let low = 0;
-    let high = array.length - 1;
-    let step = 0;
-
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        clearInterval(interval);
-        return;
-      }
-
-      if (low <= high) {
-        const mid = Math.floor((low + high) / 2);
-        
-        setAnimationStates(prev => {
-          const newStates = [...prev];
-          newStates[index] = { step: step++, data: { low, high, mid } };
-          return newStates;
-        });
-
-        if (array[mid] === target) {
-          clearInterval(interval);
-        } else if (array[mid] < target) {
-          low = mid + 1;
-        } else {
-          high = mid - 1;
-        }
-      } else {
-        clearInterval(interval);
-      }
-    }, 800);
-  };
-
-  const animateStack = (index) => {
-    let elements = [...algorithms[index].elements];
-    let step = 0;
-    let direction = "push";
-    let value = Math.floor(Math.random() * 50) + 50;
-
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        clearInterval(interval);
-        return;
-      }
-
-      if (direction === "push") {
-        elements.push(value);
-        value = Math.floor(Math.random() * 50) + 50;
-        if (elements.length >= 6) direction = "pop";
-      } else {
-        elements.pop();
-        if (elements.length <= 2) direction = "push";
-      }
-
-      setAnimationStates(prev => {
-        const newStates = [...prev];
-        newStates[index] = { step: step++, data: [...elements] };
-        return newStates;
-      });
-    }, 600);
-  };
-
-  const stopAnimations = () => {
-    setIsAnimating(false);
-  };
-
   const renderAlgorithm = (algo, index) => {
-    const state = animationStates[index];
+    const state = algoData[index];
     
     if (algo.category === "sorting") {
       return (
@@ -272,6 +129,7 @@ export default function AlgorithmVisualizationGrid() {
         initial={{ x: -100, y: -50, opacity: 0 }}
         animate={{ x: 0, y: 0, opacity: 0.2 }}
         transition={{ duration: 1.5, delay: 0.2 }}
+        ref={sectionRef}
         className="absolute top-10 left-10 w-24 h-24 rounded-full bg-gradient-to-br from-amber-500/10 to-transparent blur-xl"
       />
       

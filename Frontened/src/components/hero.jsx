@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import FloatingBackground from "../Ui/floatingBg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import DailyProblem from "../components/dailyProblem";
 import { useSelector } from "react-redux";
 import DailyProblemShimmer from "../shimmers/dailyProblemShimmer";
@@ -9,10 +9,15 @@ import { Link } from "react-router";
 const rotatingWords = ["coding", "problem-solving", "development", "algorithms"];
 const rotatingColors = ["text-[#ff6b6b]", "text-indigo-400", "text-purple-400", "text-emerald-400"];
 
-export default function Hero() {
+export default function Hero({sectionRef}) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const {loading} = useSelector((state)=>state.dailyProblem);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  function scrollToSection() {
+    if (sectionRef && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }}
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -103,6 +108,7 @@ export default function Hero() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               className="px-8 py-3 bg-gray-800/70 border border-gray-700 text-white font-medium rounded-lg hover:bg-gray-700/50 transition-all"
+              onClick={scrollToSection}
             >
               Explore
             </motion.button>

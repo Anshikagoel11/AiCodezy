@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Code, Globe, Cpu, Users, ChevronRight} from "react-feather";
-
+import { Link } from "react-router";
 const features = [
   {
     id: 1,
@@ -51,7 +51,7 @@ const TopicsUI = () => {
   const [activeTopic, setActiveTopic] = useState(0);
   
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setInterval(() => {              
       setActiveTopic((prev) => (prev + 1) % topics.length);
     }, 2000);
     
@@ -81,142 +81,15 @@ const TopicsUI = () => {
         ))}
       </div>
       <div className="flex justify-end">
+        <Link to={'/problems'}>
         <button className="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 px-3 py-1.5 rounded-lg text-xs flex items-center transition-colors">
           Start Practice <ChevronRight size={14} className="ml-1" />
-        </button>
+        </button></Link>
       </div>
     </motion.div>
   );
 };
 
-const LanguagesUI = () => {
-  const languages = ["Python", "JavaScript", "Java", "C++"];
-  const [currentLang, setCurrentLang] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentLang((prev) => (prev + 1) % languages.length);
-    }, 1500);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl p-4 text-sm"
-    >
-      <div className="text-white font-medium mb-3">Supported Languages</div>
-      <div className="grid grid-cols-2 gap-2 mb-3">
-        {languages.map((lang, i) => (
-          <motion.div
-            key={i}
-            animate={{ 
-              scale: i === currentLang ? 1.1 : 1,
-              backgroundColor: i === currentLang ? "rgba(16, 185, 129, 0.2)" : "rgba(30, 30, 30, 0.5)",
-              borderColor: i === currentLang ? "rgba(110, 231, 183, 0.3)" : "rgba(75, 85, 99, 0.5)"
-            }}
-            className="px-3 py-2 rounded-lg border text-center transition-all"
-          >
-            <span className={i === currentLang ? "text-emerald-300 font-medium" : "text-gray-300"}>{lang}</span>
-          </motion.div>
-        ))}
-      </div>
-      <div className="text-gray-400 text-xs text-center">+8 more languages supported</div>
-    </motion.div>
-  );
-};
-
-const AIUI = () => {
-  const aiFeatures = ["Code Explanation", "Intelligent Hints", "Solution Analysis", "Bug Detection"];
-  const [currentFeature, setCurrentFeature] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % aiFeatures.length);
-    }, 1800);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl p-4 text-sm"
-    >
-      <div className="text-white font-medium mb-3">AI-Powered Assistance</div>
-      <div className="mb-3">
-        {aiFeatures.map((feature, i) => (
-          <motion.div
-            key={i}
-            animate={{ 
-              opacity: i === currentFeature ? 1 : 0.6,
-              x: i === currentFeature ? 0 : 10
-            }}
-            className="py-2 border-b border-gray-700/50 last:border-b-0 transition-all"
-          >
-            <div className="flex items-center">
-              <div className={`w-2 h-2 rounded-full mr-2 ${i === currentFeature ? 'bg-amber-400' : 'bg-gray-600'}`}></div>
-              <span className={i === currentFeature ? "text-amber-300" : "text-gray-400"}>{feature}</span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      <div className="flex justify-end">
-        <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 px-3 py-1.5 rounded-lg text-xs flex items-center transition-colors">
-          Try AI Assist <ChevronRight size={14} className="ml-1" />
-        </button>
-      </div>
-    </motion.div>
-  );
-};
-
-const ProjectsUI = () => {
-  const projects = ["E-commerce API", "Task Manager", "Pathfinding Visualizer"];
-  const [currentProject, setCurrentProject] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentProject((prev) => (prev + 1) % projects.length);
-    }, 2000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl p-4 text-sm"
-    >
-      <div className="text-white font-medium mb-3">Project Challenges</div>
-      <div className="mb-3">
-        {projects.map((project, i) => (
-          <motion.div
-            key={i}
-            animate={{ 
-              opacity: i === currentProject ? 1 : 0.6,
-              x: i === currentProject ? 0 : 10
-            }}
-            className="py-2 border-b border-gray-700/50 last:border-b-0 transition-all"
-          >
-            <div className="flex items-center">
-              <div className={`w-2 h-2 rounded-full mr-2 ${i === currentProject ? 'bg-purple-400' : 'bg-gray-600'}`}></div>
-              <span className={i === currentProject ? "text-purple-300" : "text-gray-400"}>{project}</span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      <div className="flex justify-end">
-        <button className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-1.5 rounded-lg text-xs flex items-center transition-colors">
-          View Projects <ChevronRight size={14} className="ml-1" />
-        </button>
-      </div>
-    </motion.div>
-  );
-};
 
 // Animation variants
 const containerVariants = {
@@ -242,16 +115,6 @@ const itemVariants = {
 
 export default function FeaturesSection() {
   const [activeFeature, setActiveFeature] = useState(0);
-
-  const renderUI = (type) => {
-    switch(type) {
-      case "topics": return <TopicsUI />;
-      case "languages": return <LanguagesUI />;
-      case "ai": return <AIUI />;
-      case "projects": return <ProjectsUI />;
-      default: return <TopicsUI />;
-    }
-  };
 
   return (
     <section className="py-16 px-4 bg-[#0f0f0f] relative overflow-hidden">
@@ -339,7 +202,7 @@ export default function FeaturesSection() {
             className="sticky top-24 flex items-center justify-center lg:mt-10"
           >
             <div className="w-full max-w-md">
-              {renderUI(features[activeFeature].ui)}
+              {TopicsUI()}
             </div>
           </motion.div>
         </div>

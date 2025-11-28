@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
       return rejectWithValue({
         message: error?.response?.data?.message || "Something Went Wrong",
         code: error.code,
-        showToUser:true
+        showToUser:true  // its a custom field that we are adding to know whether to show this error to user or not
       });
     }
   }
