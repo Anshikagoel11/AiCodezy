@@ -53,6 +53,11 @@ const submitProblems = async (req, res) => {
     let errorMessage = null;
     let status = "accepted";
 
+
+    
+console.log("*********************************************************");
+  console.log('getResult from submitToken function : ', getResult
+)
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {
         testCasesPassed++;
@@ -137,6 +142,10 @@ if (!tokens || tokens.length === 0) {
     let errorMessage = null;
     let status = "accepted";
     let testCasesPassed = 0;
+
+// console.log("*********************************************************");
+//   console.log('getResult from submitToken function : ', getResult
+// )
 
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {

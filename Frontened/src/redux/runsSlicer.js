@@ -14,6 +14,7 @@ export const runProblem = createAsyncThunk(
       return response.data;
       
     } catch (error) {
+      console.log("Error in runProblem thunk:", error);
       return rejectWithValue({
         message: error.response?.data?.message || "Failed to run problem",
         status: error.response?.status,

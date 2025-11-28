@@ -55,8 +55,9 @@ export const checkAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get("user/checkAuth");
-      return response.data.user;
+      return response?.data?.user;
     } catch (error) {
+      // console.log("checkAuth error:", error);
       return rejectWithValue({
        message: error?.response?.data?.message || "Something Went Wrong",
         code: error.code,
@@ -135,7 +136,7 @@ const authSlice = createSlice({
 
       //checkAuth cases
       .addCase(checkAuth.pending, (state) => {
-        state.loading=true
+        state.loading=false;
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
