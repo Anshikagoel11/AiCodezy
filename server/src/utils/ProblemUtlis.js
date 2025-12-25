@@ -24,7 +24,6 @@ const getIdByLanguage=(lang)=>{
 
 
 const submitBatch = async (submissions) => {
- 
   const options = {
     method: 'POST',
     url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
@@ -38,11 +37,9 @@ const submitBatch = async (submissions) => {
   };
 
   try {
-
-
     const response = await axios.request({ ...options, timeout: 10000 });
-
-    // return array of tokens only
+// console.log('response from judge0 submitbatch  ' , response )
+   
     return response.data;
   } catch (error) {
     console.error("Error in submitBatch:", error.message);
@@ -53,7 +50,7 @@ const submitBatch = async (submissions) => {
 
 const submitToken = async (getToken) => {
  
- 
+ console.log("in submit token...... ")
   const tokens = getToken.map((obj) => obj.token);
  
   
@@ -79,7 +76,7 @@ const submitToken = async (getToken) => {
        
       const response = await axios.request(options);
         
-        console.log('response :',response)
+        // console.log('response on token submission : ',response)
       const result = response.data.submissions;
  
       const allCompleted = result.every((obj) => obj.status_id > 2);
@@ -90,7 +87,7 @@ const submitToken = async (getToken) => {
 
     } catch (error) {
       
-      console.error("Error fetching Judge0 submission result in problemutils:", error.message);
+      console.error("Error fetching Judge0 toekn result in problemutils:", error.message);
       throw error;
     }
   }

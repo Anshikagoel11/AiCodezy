@@ -10,8 +10,6 @@ const adminmiddleware = async(req,res,next)=>{
       }catch(err){
             res.status(400).send('Only admins have access')
         }
-        
-        
 }
 
 module.exports=adminmiddleware;

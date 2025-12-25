@@ -13,7 +13,6 @@ const submitProblems = async (req, res) => {
     const problemId = req.params.id;
     const { code, language } = req.body;
 
-
     if (!userId || !problemId || !code || !language) {
       return res.status(400).send("Some field missing");
     }
@@ -22,6 +21,9 @@ const submitProblems = async (req, res) => {
     if (!problem) {
       return res.status(400).send("No problem found");
     }
+
+
+    const languageId = getIdByLanguage(language);
 
     const submittedResult = await submission.create({
       userId,
@@ -32,14 +34,13 @@ const submitProblems = async (req, res) => {
       testCasesPassed: 0,
       testcasesTotal: problem.hiddenTestCases.length,
     });
+   
+    const allTestCases = [...problem.visibleTestCases, ...problem.hiddenTestCases];
 
-    const languageId = getIdByLanguage(language);
-
-    const submissions = problem.hiddenTestCases.map((testcase) => ({
+    const submissions = allTestCases.map((testcase) => ({
       source_code: code,
       language_id: languageId,
-      stdin: testcase.input,
-      
+      stdin: testcase.input,  
       expected_output: testcase.output,
     }));
 
@@ -51,13 +52,9 @@ const submitProblems = async (req, res) => {
     let memory = 0;
     let allPassed = true;
     let errorMessage = null;
-    let status = "accepted";
+    let status = "Accepted";
 
 
-    
-console.log("*********************************************************");
-  console.log('getResult from submitToken function : ', getResult
-)
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {
         testCasesPassed++;
@@ -89,6 +86,7 @@ console.log("*********************************************************");
 
     await submittedResult.save();
 
+   
     res.status(201).send(submittedResult);
   } catch (err) {
     console.error("Submission Error:", err);
@@ -108,8 +106,7 @@ const runProblems = async (req, res) => {
 
 
     const problem = await Problem.findById(problemId);
-   
-
+  
     if (!problem) {
       return res.status(400).send({ message: "No problem found with this id" });
     }
@@ -119,7 +116,6 @@ const runProblems = async (req, res) => {
     }
 
     const languageId = getIdByLanguage(language);
-// console.log('langId',languageId);
 
     const submissions = problem.visibleTestCases.map((testcase) => ({
       source_code: code,
@@ -129,24 +125,14 @@ const runProblems = async (req, res) => {
     }));
 
     const getToken = await submitBatch(submissions);
-
-// console.log('getToken from subitBatch function : ', getToken)
-    const tokens = Array.isArray(getToken) ? getToken : getToken.tokens;
-
-if (!tokens || tokens.length === 0) {
-  return res.status(400).json({ message: "No tokens received from Judge0" });
-}
     const getResult = await submitToken(getToken);
 
     let allPassed = true;
     let errorMessage = null;
-    let status = "accepted";
+    let status = "Accepted";
     let testCasesPassed = 0;
-
-// console.log("*********************************************************");
-//   console.log('getResult from submitToken function : ', getResult
-// )
-
+  
+    
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {
         testCasesPassed++;
@@ -167,6 +153,7 @@ if (!tokens || tokens.length === 0) {
       );
     }
 
+    console.log("testCasesPassed in run",testCasesPassed)
     // Directly send the result without saving to DB
     return res.status(200).send({
       status,

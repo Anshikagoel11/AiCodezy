@@ -31,7 +31,7 @@ const register = async (req, res) => {
     const token = jwt.sign(
       { emailId: emailId, _id: newUser._id, role: "user" },
       process.env.jwt_secret_key,
-      { expiresIn: 60 * 60 }
+      { expiresIn: 60 * 60 *24}
     );
     res.cookie("token", token, {
       httpOnly: true,
@@ -78,7 +78,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { emailId: emailId, _id: foundUser._id, role: foundUser.role },
       process.env.jwt_secret_key,
-      { expiresIn: 60 * 60 }
+      { expiresIn: 60 * 60 * 24}
     );
     // console.log("token is : ", token);
     res.cookie("token", token, {
