@@ -130,7 +130,7 @@ const runProblems = async (req, res) => {
 
     let allPassed = true;
     let errorMessage = null;
-    let status = "Accepted";
+    let status = "accepted";
     let testCasesPassed = 0;
   
     
@@ -205,7 +205,7 @@ const getSolvedProblems = async (req, res) => {
     // Sirf accepted submissions ke unique problemId
     const solvedProblemIds = await submission.distinct("problemId", {
       userId,
-      status: "Accepted",
+      status: "accepted",
     });
 
     if (!solvedProblemIds || solvedProblemIds.length === 0) {
