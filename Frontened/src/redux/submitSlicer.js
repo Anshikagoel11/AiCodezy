@@ -8,9 +8,10 @@ export const submitProblem = createAsyncThunk(
   // console.log(submitCode.language)
     try {
       const response = await axiosClient.post(`submission/submit/${id}` , submitCode);
-      console.log(response.data)
+      console.log("response from backend in redux file " , response.data)
       return response.data;
     } catch (error) {
+      console.log("error come in redux file " , error);
       return rejectWithValue({
         message: error.response?.data?.message || "Failed to submit problem",
         status: error.response?.status,

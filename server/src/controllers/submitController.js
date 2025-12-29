@@ -52,7 +52,7 @@ const submitProblems = async (req, res) => {
     let memory = 0;
     let allPassed = true;
     let errorMessage = null;
-    let status = "Accepted";
+    let status = "accepted";
 
 
     for (const oneResult of getResult) {
@@ -84,6 +84,7 @@ const submitProblems = async (req, res) => {
     submittedResult.runtime = runtime;
     submittedResult.memory = memory;
 
+    console.log(submittedResult)
     await submittedResult.save();
 
    
@@ -153,7 +154,7 @@ const runProblems = async (req, res) => {
       );
     }
 
-    console.log("testCasesPassed in run",testCasesPassed)
+    // console.log("testCasesPassed in run",testCasesPassed)
     // Directly send the result without saving to DB
     return res.status(200).send({
       status,
@@ -204,7 +205,7 @@ const getSolvedProblems = async (req, res) => {
     // Sirf accepted submissions ke unique problemId
     const solvedProblemIds = await submission.distinct("problemId", {
       userId,
-      status: "accepted",
+      status: "Accepted",
     });
 
     if (!solvedProblemIds || solvedProblemIds.length === 0) {

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useMemo } from "react";
 import axiosClient from "../utils/axiosClient";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import ProblemsShimmer from "../shimmers/problemsshimmer";
 import { fetchSolvedProblems } from "../redux/problemSolvedslicer";
-import {CheckSquare } from 'lucide-react';
+import { CheckSquare } from "lucide-react";
 import {
   ChevronRight,
   Filter,
@@ -14,8 +14,6 @@ import {
   Tag,
 } from "react-feather";
 import { Link } from "react-router-dom";
-
-
 
 export default function AllProblems() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -51,12 +49,15 @@ export default function AllProblems() {
     }
   }
 
-  useEffect(() => {
-    fetchAllProblems();
-    if (isAuthenticated) {
-      dispatch(fetchSolvedProblems());
-    }
-  }, []);
+ useEffect(() => {
+  fetchAllProblems();
+}, []);
+
+useEffect(() => {
+  if (isAuthenticated) {
+    dispatch(fetchSolvedProblems());
+  }
+}, [isAuthenticated, dispatch]);
 
   const filteredProblems = problems?.filter((problem) => {
     const matchesSearch = problem.title
@@ -82,9 +83,13 @@ export default function AllProblems() {
     hard: "bg-rose-500/10 text-rose-400 border-rose-400/20",
   };
 
-  const isSolved = (problemId) => {
-    return solvedproblems?.includes(problemId);
-  };
+  const solvedSet = useMemo(
+  () => new Set(solvedproblems),
+  [solvedproblems]
+);
+
+const isSolved = (problemId) => solvedSet.has(problemId);  //O(1) opr in set 
+
 
   if (loading) {
     return (
@@ -221,14 +226,14 @@ export default function AllProblems() {
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between">
                     <div className="flex-1">
-                     <div className="flex items-center gap-5">
-                       <h3 className="text-lg font-bold text-white mb-1">
-                        {problem.title}
-                      </h3>
-                      {isAuthenticated && isSolved(problem._id) && (
-                        <CheckSquare className="h-7 w-7 text-green-500" />
-                      )}
-                     </div>
+                      <div className="flex items-center gap-5">
+                        <h3 className="text-lg font-bold text-white mb-1">
+                          {problem.title}
+                        </h3>
+                        {isAuthenticated && isSolved(problem._id) && (
+                          <CheckSquare className="h-7 w-7 text-green-500" />
+                        )}
+                      </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {problem.tags.map((tag, tagIndex) => (
                           <span

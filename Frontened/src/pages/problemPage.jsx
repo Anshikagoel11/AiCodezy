@@ -19,8 +19,6 @@ import TestCases from "../components/testCases";
 import { ProblemPageShimmer } from "../shimmers/ProblemPageShimmer";
 import {
   BookOpenIcon,
-  PencilIcon,
-  LightBulbIcon,
   ClockIcon,
   CodeBracketIcon,
   PlayIcon,
@@ -78,6 +76,7 @@ export default function ProblemPage() {
   };
 
   const handleSubmitProblem = () => {
+    console.log('submit button clicked')
     if (!isAuthenticated) {
       toast.error("You need to sign in/sign up to submit your code");
       return;
@@ -85,14 +84,16 @@ export default function ProblemPage() {
 
     const code = editorRef.current?.getValue();
     if (!code || code.trim() === "") {
-      toast.error("Please write some code before submitting");
+      toast.error("Please write code before submitting");
       return;
     }
 
     const submitCode = {
       code: code,
       language: language,
+      
     };
+    console.log("submitcode from frontened  " , submitCode);
     dispatch(submitProblemAction({ submitCode, id }));
   };
 
