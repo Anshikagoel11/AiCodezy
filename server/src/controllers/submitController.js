@@ -22,8 +22,11 @@ const submitProblems = async (req, res) => {
       return res.status(400).send("No problem found");
     }
 
-
     const languageId = getIdByLanguage(language);
+    const allTestCases = [
+      ...problem.visibleTestCases,
+      ...problem.hiddenTestCases,
+    ];
 
     const submittedResult = await submission.create({
       userId,
@@ -32,15 +35,13 @@ const submitProblems = async (req, res) => {
       status: "pending",
       language,
       testCasesPassed: 0,
-      testcasesTotal: problem.hiddenTestCases.length,
+      testcasesTotal: allTestCases.length,
     });
-   
-    const allTestCases = [...problem.visibleTestCases, ...problem.hiddenTestCases];
 
     const submissions = allTestCases.map((testcase) => ({
       source_code: code,
       language_id: languageId,
-      stdin: testcase.input,  
+      stdin: testcase.input,
       expected_output: testcase.output,
     }));
 
@@ -53,7 +54,6 @@ const submitProblems = async (req, res) => {
     let allPassed = true;
     let errorMessage = null;
     let status = "accepted";
-
 
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {
@@ -84,10 +84,9 @@ const submitProblems = async (req, res) => {
     submittedResult.runtime = runtime;
     submittedResult.memory = memory;
 
-    console.log(submittedResult)
+    // console.log(submittedResult)
     await submittedResult.save();
 
-   
     res.status(201).send(submittedResult);
   } catch (err) {
     console.error("Submission Error:", err);
@@ -100,20 +99,20 @@ const submitProblems = async (req, res) => {
 };
 
 const runProblems = async (req, res) => {
-  
   try {
     const problemId = req.params.id;
     const { code, language } = req.body;
 
-
     const problem = await Problem.findById(problemId);
-  
+
     if (!problem) {
       return res.status(400).send({ message: "No problem found with this id" });
     }
 
     if (!problem.visibleTestCases || problem.visibleTestCases.length === 0) {
-      return res.status(400).send({ message: "No visible test cases available" });
+      return res
+        .status(400)
+        .send({ message: "No visible test cases available" });
     }
 
     const languageId = getIdByLanguage(language);
@@ -132,8 +131,7 @@ const runProblems = async (req, res) => {
     let errorMessage = null;
     let status = "accepted";
     let testCasesPassed = 0;
-  
-    
+
     for (const oneResult of getResult) {
       if (oneResult.status_id === 3) {
         testCasesPassed++;
@@ -178,9 +176,9 @@ const getProblemSubmission = async (req, res) => {
     const problemId = req.params.id;
     const userId = req.user._id;
 
-    const problemSubmissions = await submission.find({ 
-      problemId, 
-      userId 
+    const problemSubmissions = await submission.find({
+      problemId,
+      userId,
     });
 
     if (!problemSubmissions.length) {
@@ -188,7 +186,6 @@ const getProblemSubmission = async (req, res) => {
     }
 
     res.status(200).send(problemSubmissions);
-
   } catch (err) {
     console.error("Error in getting user's Problem Submission", err);
     res.status(500).send("Internal server occurred");
@@ -208,10 +205,6 @@ const getSolvedProblems = async (req, res) => {
       status: "accepted",
     });
 
-    if (!solvedProblemIds || solvedProblemIds.length === 0) {
-      return res.status(200).send("No problem solved by user");
-    }
-
     res.status(200).json(solvedProblemIds);
   } catch (err) {
     console.error("Error in problem solved by user:", err);
@@ -219,4 +212,9 @@ const getSolvedProblems = async (req, res) => {
   }
 };
 
-module.exports = { submitProblems, runProblems, getProblemSubmission ,getSolvedProblems};
+module.exports = {
+  submitProblems,
+  runProblems,
+  getProblemSubmission,
+  getSolvedProblems,
+};
