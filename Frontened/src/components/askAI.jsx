@@ -156,7 +156,8 @@ function AskAi() {
         <div className="flex-1 flex flex-col items-center justify-center p-3 text-center">
           <div className="bg-amber-400/10 p-4 rounded-xl border border-amber-400/30 max-w-md">
             <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-amber-400/20 flex items-center justify-center">
-              <LogIn className="w-5 h-5 text-amber-400" />
+              
+              <Link to="/auth"><LogIn className="w-5 h-5 text-amber-400" /></Link>
             </div>
             <h3 className="text-xl font-semibold text-amber-300 mb-2">Sign In Required</h3>
             <p className="text-gray-300 mb-6">
@@ -251,7 +252,7 @@ function AskAi() {
               <div className="flex-shrink-0 w-7 h-7 rounded-full bg-rose-400/10 flex items-center justify-center">
                 <span className="text-xs">⚠️</span>
               </div>
-              {error}
+              "Limit exceeded. Please try again later."
             </div>
           </div>
         )}
