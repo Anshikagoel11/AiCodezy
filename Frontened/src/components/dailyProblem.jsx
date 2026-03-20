@@ -7,12 +7,16 @@ export default function DailyProblem() {
     const problemId = dailyProblem?._id;
 
     return (
+        
         <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="w-full"
         >
+            {
+                dailyProblem && (
+            
             <div className="relative bg-gray-700/20 backdrop-blur-lg border border-gray-700 rounded-xl p-4 shadow-2xl overflow-hidden">
                 {/* Decorative elements */}
                 <div className="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-gradient-to-br from-amber-500/20 to-transparent blur-xl"></div>
@@ -83,6 +87,7 @@ export default function DailyProblem() {
                     className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"
                 />
             </div>
+                )}
         </motion.div>
     );
 }
