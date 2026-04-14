@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "react-router": "^7.7.1",
     "react-router-dom": "^7.7.1"
   }
