@@ -28,7 +28,7 @@ export default function Footer() {
             className="mb-6 md:mb-0"
           >
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-500">
-              AiCodezy
+              StackSphere
             </h3>
             <p className="text-gray-400 text-sm mt-1">Intelligent coding solutions</p>
           </motion.div>

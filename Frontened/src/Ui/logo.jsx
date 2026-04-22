@@ -22,7 +22,7 @@ const Logo = () => (
         repeatType: 'reverse'
       }}
     >
-      AiCodezy
+      StackSphere
     </motion.h1>
   </motion.div>
 );

@@ -145,7 +145,7 @@ export default function FeaturesSection() {
             <span className="w-2 h-2 rounded-full bg-amber-400"></span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-500">AiCodezy</span>?
+            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-500">StackSphere</span>?
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
             Our platform offers intelligent tools and resources to enhance your coding skills with AI-powered assistance.

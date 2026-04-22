@@ -35,7 +35,7 @@ const dispatch = useDispatch();
           >
             <Code className="text-orange-400" size={24} />
             <span className="font-bold text-xl hidden sm:inline bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-900 bg-clip-text text-transparent">
-              AiCodezy
+              StackSphere
             </span>
           </motion.div>
 
