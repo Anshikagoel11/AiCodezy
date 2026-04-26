@@ -41,7 +41,7 @@ export default function Footer() {
             className="flex space-x-6"
           >
             <a
-              href="https://www.linkedin.com/in/anshika-goel-25b537314/"
+              // href="https://www.linkedin.com/in/anshika-goel-25b537314/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-gray-400 hover:text-indigo-400 transition-colors group"
@@ -53,7 +53,7 @@ export default function Footer() {
             </a>
             
             <a
-              href="mailto:anshikadevv10@gmail.com"
+              // href="mailto:anshikadevv10@gmail.com"
               className="flex items-center text-gray-400 hover:text-amber-400 transition-colors group"
             >
               <div className="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center mr-2 group-hover:bg-amber-500/10 transition-colors">
