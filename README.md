@@ -34,12 +34,14 @@ It provides an interactive coding environment where users can solve problems, ru
 <!-- Replace with your submission results screenshot -->
 <img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/f7aee17c-807a-488a-ba10-6a693fae951a" />
 
+
 <img width="922" height="722" alt="image" src="https://github.com/user-attachments/assets/98ba7adb-8c52-4b18-b189-9d81ca87b993" />
 
 
 ### 5. Submission History
 <!-- Replace with your submission results screenshot -->
-<img width="935" height="851" alt="Screenshot 2026-10-31 140324" src="https://github.com/user-attachments/assets/428df132-d4b7-4eba-abf8-a61131997b79" />
+<img width="1912" height="833" alt="image" src="https://github.com/user-attachments/assets/a5880f9f-2d05-4f4f-b899-cc58276ab44b" />
+
 
 
 
