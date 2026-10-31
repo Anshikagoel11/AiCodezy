@@ -12,9 +12,9 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ### 1. Home Page
 <!-- Replace with your home page screenshot -->
-![Home Page](<img width="1868" height="847" alt="Screenshot 2026-10-31 135536" src="https://github.com/user-attachments/assets/aebfa82e-0f8a-48cb-bb7b-2951bffae9b5" />
+<img width="1868" height="847" alt="Screenshot 2026-10-31 135536" src="https://github.com/user-attachments/assets/aebfa82e-0f8a-48cb-bb7b-2951bffae9b5" />
 
-)
+
 
 ### 2. Problems Dashboard
 <!-- Replace with your problems page screenshot -->
