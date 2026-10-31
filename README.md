@@ -32,27 +32,37 @@ The platform combines an interactive Monaco code editor, automated code evaluati
 
 <div align="center">
 
-### 🏠 Home Page
+### 🏠 Home Page & Problems Dashboard
 
+<table>
+<tr>
+<td width="50%" align="center">
+<strong>Home Page</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/aebfa82e-0f8a-48cb-bb7b-2951bffae9b5" width="100%" alt="AiCodezy Home Page"/>
-
-<br/>
-
-### 📚 Problems Dashboard
-
+</td>
+<td width="50%" align="center">
+<strong>Problems Dashboard</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/8ce754a5-fff1-481a-8b2b-ca30dd727476" width="100%" alt="Problems Dashboard"/>
+</td>
+</tr>
+</table>
 
 <br/>
 
-### 💻 Coding Workspace
+### 💻 Coding Workspace & AI Assistant
 
+<table>
+<tr>
+<td width="50%" align="center">
+<strong>Coding Workspace</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/254b4a42-5f1d-46c5-adef-2c9d41731000" width="100%" alt="Coding Workspace"/>
-
-<br/>
-
-### 🤖 AI Coding Assistant
-
+</td>
+<td width="50%" align="center">
+<strong>AI Coding Assistant</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/daee50e3-682d-4775-95d2-a0a818bfafc1" width="100%" alt="AI Coding Assistant"/>
+</td>
+</tr>
+</table>
 
 <br/>
 
@@ -73,21 +83,21 @@ The platform combines an interactive Monaco code editor, automated code evaluati
 
 <br/>
 
-### 📊 Submission History
+### 📊 Submission History & Detailed Results
 
 <table>
 <tr>
 <td width="50%" align="center">
-<strong>Submissions</strong><br/><br/>
+<strong>Submission History</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/a5880f9f-2d05-4f4f-b899-cc58276ab44b" width="100%" alt="Submission History"/>
 </td>
 <td width="50%" align="center">
 <strong>Detailed Results</strong><br/><br/>
-<img width="905" height="820" alt="image" src="https://github.com/user-attachments/assets/0f2d1e27-3da3-459d-8a4c-58fe90995be0" />
+<img src="https://github.com/user-attachments/assets/0f2d1e27-3da3-459d-8a4c-58fe90995be0" width="100%" alt="Detailed Submission Results"/>
 </td>
 </tr>
 </table>
-<br/>
+
 </div>
 
 ---
