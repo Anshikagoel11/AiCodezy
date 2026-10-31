@@ -75,8 +75,19 @@ The platform combines an interactive Monaco code editor, automated code evaluati
 
 ### 📊 Submission History
 
+<table>
+<tr>
+<td width="50%" align="center">
+<strong>Submissions</strong><br/><br/>
 <img src="https://github.com/user-attachments/assets/a5880f9f-2d05-4f4f-b899-cc58276ab44b" width="100%" alt="Submission History"/>
-
+</td>
+<td width="50%" align="center">
+<strong>Detailed Results</strong><br/><br/>
+<img width="905" height="820" alt="image" src="https://github.com/user-attachments/assets/0f2d1e27-3da3-459d-8a4c-58fe90995be0" />
+</td>
+</tr>
+</table>
+<br/>
 </div>
 
 ---
