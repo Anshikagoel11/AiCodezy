@@ -1,4 +1,4 @@
-# 🚀 AiCodezy – AI-Powered Coding Practice Platform
+#  AiCodezy – AI-Powered Coding Practice Platform
 
 AiCodezy is a full-stack coding practice platform designed to help developers improve their Data Structures and Algorithms (DSA) skills through hands-on coding, real-time code execution, and AI-powered assistance.
 
@@ -12,17 +12,20 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ### 1. Home Page
 <!-- Replace with your home page screenshot -->
-![Home Page](<img width="1868" height="847" alt="image" src="https://github.com/user-attachments/assets/bbbebffc-b20d-428a-a03f-754b226d50e5" />
+![Home Page](<img width="1868" height="847" alt="Screenshot 2026-10-31 135536" src="https://github.com/user-attachments/assets/aebfa82e-0f8a-48cb-bb7b-2951bffae9b5" />
+
 )
 
 ### 2. Problems Dashboard
 <!-- Replace with your problems page screenshot -->
-![Problems Dashboard](<img width="1745" height="827" alt="image" src="https://github.com/user-attachments/assets/f033479d-afb8-457c-909c-55431715a15e" />
+![Problems Dashboard](<img width="1745" height="827" alt="Screenshot 2026-10-31 135606" src="https://github.com/user-attachments/assets/8ce754a5-fff1-481a-8b2b-ca30dd727476" />
+
 )
 
 ### 3. Coding Workspace
 <!-- Replace with your coding workspace screenshot -->
-![Coding Workspace](<img width="1873" height="881" alt="image" src="https://github.com/user-attachments/assets/dcc96f0f-2414-4895-8f86-d2902a71f123" />
+![Coding Workspace](<img width="1873" height="881" alt="Screenshot 2026-10-31 135644" src="https://github.com/user-attachments/assets/254b4a42-5f1d-46c5-adef-2c9d41731000" />
+
 )
 
 ### 4. AI Coding Assistant
@@ -33,7 +36,8 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ### 5. Submission Results
 <!-- Replace with your submission results screenshot -->
-![Submission Results](<img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/45230771-7ff6-4085-a993-157d4a4b19fc" />
+![Submission Results](<img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/f7aee17c-807a-488a-ba10-6a693fae951a" />
+
 )
 
 ### 5. Submission History
