@@ -18,33 +18,30 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ### 2. Problems Dashboard
 <!-- Replace with your problems page screenshot -->
-![Problems Dashboard](<img width="1745" height="827" alt="Screenshot 2026-10-31 135606" src="https://github.com/user-attachments/assets/8ce754a5-fff1-481a-8b2b-ca30dd727476" />
-
-)
+<img width="1745" height="827" alt="Screenshot 2026-10-31 135606" src="https://github.com/user-attachments/assets/8ce754a5-fff1-481a-8b2b-ca30dd727476" />
 
 ### 3. Coding Workspace
 <!-- Replace with your coding workspace screenshot -->
-![Coding Workspace](<img width="1873" height="881" alt="Screenshot 2026-10-31 135644" src="https://github.com/user-attachments/assets/254b4a42-5f1d-46c5-adef-2c9d41731000" />
+<img width="1873" height="881" alt="Screenshot 2026-10-31 135644" src="https://github.com/user-attachments/assets/254b4a42-5f1d-46c5-adef-2c9d41731000" />
 
-)
 
 ### 4. AI Coding Assistant
 <!-- Replace with your AI assistant screenshot -->
-![AI Assistant](<img width="1598" height="792" alt="image" src="https://github.com/user-attachments/assets/daee50e3-682d-4775-95d2-a0a818bfafc1" />
+<img width="1598" height="792" alt="image" src="https://github.com/user-attachments/assets/daee50e3-682d-4775-95d2-a0a818bfafc1" />
 
-)
 
 ### 5. Submission Results
 <!-- Replace with your submission results screenshot -->
-![Submission Results](<img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/f7aee17c-807a-488a-ba10-6a693fae951a" />
+<img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/f7aee17c-807a-488a-ba10-6a693fae951a" />
 
-)
+<img width="922" height="722" alt="image" src="https://github.com/user-attachments/assets/98ba7adb-8c52-4b18-b189-9d81ca87b993" />
+
 
 ### 5. Submission History
 <!-- Replace with your submission results screenshot -->
-![Submission History](<img width="935" height="851" alt="Screenshot 2026-10-31 140324" src="https://github.com/user-attachments/assets/428df132-d4b7-4eba-abf8-a61131997b79" />
+<img width="935" height="851" alt="Screenshot 2026-10-31 140324" src="https://github.com/user-attachments/assets/428df132-d4b7-4eba-abf8-a61131997b79" />
 
-)
+
 
 ---
 
