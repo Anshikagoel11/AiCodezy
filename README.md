@@ -1,56 +1,123 @@
-# 🤖 AICodexy – AI-Powered Coding Practice Platform
+# 🚀 AiCodezy – AI-Powered Coding Practice Platform
 
-AICodexy is an intelligent coding platform designed to help users practice and improve their problem-solving skills across multiple programming languages, with the support of an AI assistant.
+AiCodezy is a full-stack coding practice platform designed to help developers improve their Data Structures and Algorithms (DSA) skills through hands-on coding, real-time code execution, and AI-powered assistance.
 
----
+It provides an interactive coding environment where users can solve problems, run code against test cases, submit solutions, track their progress, and get personalized guidance from an AI assistant.
 
-## 🚀 Features
-
-- 💻 Solve coding problems in multiple programming languages
-- 🤖 AI-powered assistant for debugging and guidance
-- 🧠 Context-aware hints without revealing full solutions
-- 🐞 Helps identify and fix bugs in user code
-- 📊 Encourages independent problem-solving
+🔗 **Live Demo:** https://ai-codezy.vercel.app
 
 ---
 
-## 🎯 Key Idea
+## 📸 Screenshots
 
-Unlike traditional platforms, AICodexy focuses on **guided learning**:
-- The AI assistant helps users **understand mistakes**
+### 1. Home Page
+<!-- Replace with your home page screenshot -->
+![Home Page](<img width="1868" height="847" alt="image" src="https://github.com/user-attachments/assets/bbbebffc-b20d-428a-a03f-754b226d50e5" />
+)
+
+### 2. Problems Dashboard
+<!-- Replace with your problems page screenshot -->
+![Problems Dashboard](<img width="1745" height="827" alt="image" src="https://github.com/user-attachments/assets/f033479d-afb8-457c-909c-55431715a15e" />
+)
+
+### 3. Coding Workspace
+<!-- Replace with your coding workspace screenshot -->
+![Coding Workspace](<img width="1873" height="881" alt="image" src="https://github.com/user-attachments/assets/dcc96f0f-2414-4895-8f86-d2902a71f123" />
+)
+
+### 4. AI Coding Assistant
+<!-- Replace with your AI assistant screenshot -->
+![AI Assistant](<img width="1598" height="792" alt="image" src="https://github.com/user-attachments/assets/daee50e3-682d-4775-95d2-a0a818bfafc1" />
+
+)
+
+### 5. Submission Results
+<!-- Replace with your submission results screenshot -->
+![Submission Results](<img width="1882" height="835" alt="Screenshot 2026-10-31 140224" src="https://github.com/user-attachments/assets/45230771-7ff6-4085-a993-157d4a4b19fc" />
+)
+
+### 5. Submission History
+<!-- Replace with your submission results screenshot -->
+![Submission History](<img width="935" height="851" alt="Screenshot 2026-10-31 140324" src="https://github.com/user-attachments/assets/428df132-d4b7-4eba-abf8-a61131997b79" />
+
+)
 
 ---
 
-### 🔹 Frontend
-- Interactive coding interface (React)
-- Code editor with real-time feedback
+## ✨ Features
 
-### 🔹 Backend
-- Handles problem management, submissions, and evaluation
-- Executes code securely 
-
-### 🔹 AI Assistant Service
-- Analyzes user code
-- helps in solving errors
-
-### 🔹 Execution Engine
-- Runs code in isolated containers
-- Supports multiple languages
-
-### 🔹 Database
-- Stores problems, submissions, and user progress
+- **User Authentication:** Secure signup and login functionality.
+- **Problem Library:** Browse and practice a collection of DSA problems.
+- **Monaco Code Editor:** Write and edit code in an interactive coding environment.
+- **Multi-Language Support:** Solve problems using multiple programming languages.
+- **Code Execution:** Run code against visible test cases and get instant feedback.
+- **Code Submission:** Submit solutions against visible and hidden test cases.
+- **Submission History:** Track previous submissions and their results.
+- **Solved Problems Tracking:** Keep track of successfully solved problems.
+- **AI Coding Assistant:** Get AI-powered hints, explanations, debugging help, and problem-specific guidance.
+- **Daily Problems:** Practice regularly with daily coding challenges.
+- **Editorials and Solutions:** Access problem explanations and solution resources.
 
 ---
 
-## ⚡ Tech Stack
+## 🛠️ Tech Stack
 
-- Frontend: React.js
-- Backend: Node.js
-- AI Integration: LLM APIs
-- Database: MongoDB 
+### Frontend
+- React.js
+- Vite
+- Redux Toolkit
+- React Router
+- Tailwind CSS
+- Monaco Editor
+- Framer Motion
+- Axios
+- React Hook Form
+- Zod
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- Redis
+- JWT Authentication
+- bcrypt
+- Cookie Parser
+
+### AI Integration
+- Google Gemini API
+- Context-aware AI responses
+- Server-Sent Events (SSE) for streaming responses
+
+### Code Execution
+- Judge0 API
+- Multi-language code execution
+- Batch test-case evaluation
 
 ---
 
-## 🌟 Objective
+## 🏗️ System Architecture
 
-To create a platform that enhances coding skills by combining **practice + intelligent guidance**, helping users learn effectively without over-reliance on direct answers.
+```mermaid
+flowchart TD
+    A[User] --> B[React Frontend]
+    B --> C[Express.js Backend]
+
+    C --> D[Authentication]
+    C --> E[Problem Management]
+    C --> F[Submission Management]
+    C --> G[AI Assistant]
+
+    D --> H[(MongoDB)]
+    E --> H
+    F --> H
+
+    F --> I[Judge0 API]
+    I --> J[Execution Results]
+    J --> B
+
+    G --> K[Google Gemini API]
+    K --> L[AI Response Streaming]
+    L --> B
+
+    C --> M[(Redis)]
