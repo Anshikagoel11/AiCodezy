@@ -63,6 +63,33 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ---
 
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    A[User] --> B[React Frontend]
+    B --> C[Express.js Backend]
+
+    C --> D[Authentication]
+    C --> E[Problem Management]
+    C --> F[Submission Management]
+    C --> G[AI Assistant]
+
+    D --> H[(MongoDB)]
+    E --> H
+    F --> H
+
+    F --> I[Judge0 API]
+    I --> J[Execution Results]
+    J --> B
+
+    G --> K[Google Gemini API]
+    K --> L[AI Response Streaming]
+    L --> B
+
+    C --> M[(Redis)]
+
+---
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -99,28 +126,3 @@ It provides an interactive coding environment where users can solve problems, ru
 
 ---
 
-## 🏗️ System Architecture
-
-```mermaid
-flowchart TD
-    A[User] --> B[React Frontend]
-    B --> C[Express.js Backend]
-
-    C --> D[Authentication]
-    C --> E[Problem Management]
-    C --> F[Submission Management]
-    C --> G[AI Assistant]
-
-    D --> H[(MongoDB)]
-    E --> H
-    F --> H
-
-    F --> I[Judge0 API]
-    I --> J[Execution Results]
-    J --> B
-
-    G --> K[Google Gemini API]
-    K --> L[AI Response Streaming]
-    L --> B
-
-    C --> M[(Redis)]
