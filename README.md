@@ -84,6 +84,125 @@ flowchart TD
 
 ---
 
+
+---
+
+## 📂 Project Structure
+
+```text
+AiCodezy/
+│
+├── Frontened/
+│   ├── public/
+│   ├── src/
+│   │   ├── auth/
+│   │   │   ├── authPage.jsx
+│   │   │   ├── signIn.jsx
+│   │   │   └── signUp.jsx
+│   │   │
+│   │   ├── components/
+│   │   │   ├── answer.jsx
+│   │   │   ├── askAI.jsx
+│   │   │   ├── codeEditor.jsx
+│   │   │   ├── dailyProblem.jsx
+│   │   │   ├── description.jsx
+│   │   │   ├── dsaVisualize.jsx
+│   │   │   ├── editorial.jsx
+│   │   │   ├── features.jsx
+│   │   │   ├── footer.jsx
+│   │   │   ├── hero.jsx
+│   │   │   ├── solutions.jsx
+│   │   │   ├── submissions.jsx
+│   │   │   ├── testCaseResults.jsx
+│   │   │   └── testCases.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── allProblems.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── navbar.jsx
+│   │   │   └── problemPage.jsx
+│   │   │
+│   │   ├── redux/
+│   │   │   ├── aiChatslicer.js
+│   │   │   ├── authSlicer.js
+│   │   │   ├── dailyproblemSlicer.js
+│   │   │   ├── problemSlicer.js
+│   │   │   ├── problemSolvedslicer.js
+│   │   │   ├── runsSlicer.js
+│   │   │   └── submitSlicer.js
+│   │   │
+│   │   ├── shimmers/
+│   │   │   ├── dailyProblemShimmer.jsx
+│   │   │   ├── ProblemPageShimmer.jsx
+│   │   │   ├── problemsshimmer.jsx
+│   │   │   └── submissionShimmer.jsx
+│   │   │
+│   │   ├── store/
+│   │   │   └── store.js
+│   │   │
+│   │   ├── Ui/
+│   │   │   ├── celebrateAnimation.jsx
+│   │   │   ├── cursor.jsx
+│   │   │   ├── floatingBg.jsx
+│   │   │   ├── loadingdots.jsx
+│   │   │   ├── logo.jsx
+│   │   │   └── particleBurst.jsx
+│   │   │
+│   │   ├── utils/
+│   │   │   └── axiosClient.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── index.jsx
+│   │   └── index.css
+│   │
+│   ├── index.html
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── vite.config.js
+│
+├── server/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── db.js
+│   │   │   └── redis.js
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── aiChatController.js
+│   │   │   ├── auth.js
+│   │   │   ├── problemController.js
+│   │   │   ├── submitController.js
+│   │   │   └── videoSolutionCont.js
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── adminmiddleware.js
+│   │   │   └── tokenverify.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── Problem.js
+│   │   │   ├── submission.js
+│   │   │   ├── user.js
+│   │   │   └── videoSoltuion.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── aiChatRouter.js
+│   │   │   ├── problemRouter.js
+│   │   │   ├── submitProblem.js
+│   │   │   ├── userAuth.js
+│   │   │   └── videoRouter.js
+│   │   │
+│   │   └── utils/
+│   │       ├── ProblemUtlis.js
+│   │       └── validator.js
+│   │
+│   ├── index.js
+│   └── package.json
+│
+├── package.json
+├── package-lock.json
+└── README.md
+```
+
+
 ## 🛠️ Tech Stack
 
 ### Frontend
